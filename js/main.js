@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initContactForm();
     createTestimonialDots();
     initStatCounters();
+    // initHeroScrollTransition(); // Removed hero questions functionality
     
     /**
      * Header scroll effect
@@ -387,3 +388,8 @@ function initStatCounters() {
         observer.observe(container);
     });
 }
+
+/**
+ * Hero questions functionality removed
+ * Hero section is now clean without questions and background images
+ */

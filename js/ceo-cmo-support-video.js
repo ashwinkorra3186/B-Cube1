@@ -1,0 +1,291 @@
+/**
+ * CEO & CMO Support Video JavaScript
+ * Video functionality for CEO & CMO support page with 2 question-subtitle pairs
+ */
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Question-Subtitle Pairs with individual timing and audio
+    const questionSubtitlePairs = [
+        {
+            question: "Is your critical decision-making powered by on-ground insights and reliable intelligence?",
+            subtitle: "We understand you'd not need one to tell you what to do, but all that's needed is reliable insight, intelligence and informed perspective, to insulate & empower your decision making.",
+            duration: 12000, // 12 seconds
+            audioId: "audio6"
+        },
+        {
+            question: "Is your strategy / business / investment plan tested and backed by robust intelligence?",
+            subtitle: "We own the responsibility of your consequential decision-making - bank on us, with confidence.",
+            duration: 6000, // 6 seconds
+            audioId: "audio7"
+        }
+    ];
+
+    // DOM Elements
+    const questionText = document.getElementById('questionText');
+    const voiceoverText = document.getElementById('voiceoverText');
+    const progressBar = document.getElementById('progressBar');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const restartBtn = document.getElementById('restartBtn');
+    const playIcon = document.getElementById('playIcon');
+    const pauseIcon = document.getElementById('pauseIcon');
+    
+    // Audio elements
+    const audioElements = {
+        audio6: document.getElementById('audio6'),
+        audio7: document.getElementById('audio7')
+    };
+
+    // State Management
+    let currentIndex = 0;
+    let isPlaying = false;
+    let isPaused = false;
+    let presentationTimeout;
+    let currentAudio = null;
+
+    // Initialize
+    init();
+
+    function init() {
+        setupEventListeners();
+        setupAudioEvents();
+        showWelcomeMessage();
+    }
+
+    function setupEventListeners() {
+        playPauseBtn.addEventListener('click', togglePlayPause);
+        restartBtn.addEventListener('click', restartPresentation);
+        
+        // Keyboard controls
+        document.addEventListener('keydown', function(e) {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                togglePlayPause();
+            } else if (e.code === 'KeyR') {
+                e.preventDefault();
+                restartPresentation();
+            }
+        });
+    }
+    
+    function setupAudioEvents() {
+        // Setup error handling for all audio elements
+        Object.values(audioElements).forEach(audio => {
+            audio.addEventListener('error', function(e) {
+                console.error('Audio loading error:', e);
+            });
+            
+            audio.addEventListener('ended', function() {
+                // Audio finished playing naturally
+                console.log('Audio finished playing');
+            });
+        });
+    }
+
+    function showWelcomeMessage() {
+        questionText.textContent = "CEO & CMO Support Services";
+        questionText.classList.add('active', 'gold');
+        voiceoverText.textContent = "Click play to discover how we empower executive decision-making";
+        voiceoverText.classList.add('active');
+        progressBar.style.width = '0%';
+    }
+
+    function startPresentation() {
+        if (isPaused) {
+            resumePresentation();
+            return;
+        }
+
+        isPlaying = true;
+        currentIndex = 0;
+        updatePlayPauseButton();
+        
+        // Start with first question-subtitle pair
+        showCurrentPair();
+    }
+
+    function showCurrentPair() {
+        if (currentIndex >= questionSubtitlePairs.length) {
+            endPresentation();
+            return;
+        }
+        
+        const currentPair = questionSubtitlePairs[currentIndex];
+        
+        // Clear previous content
+        clearContent();
+        
+        // Show question and subtitle together
+        setTimeout(() => {
+            displayQuestion(currentPair.question);
+            displaySubtitle(currentPair.subtitle);
+            playAudioForCurrentPair(currentPair);
+            animateProgressBar(currentPair.duration);
+            
+            // Schedule next pair after current duration
+            presentationTimeout = setTimeout(() => {
+                if (isPlaying) {
+                    stopCurrentAudio();
+                    currentIndex++;
+                    showCurrentPair();
+                }
+            }, currentPair.duration);
+        }, 200);
+    }
+
+    function displayQuestion(question) {
+        questionText.textContent = question;
+        questionText.classList.add('active');
+        
+        // Add gold accent to first question
+        if (currentIndex === 0) {
+            questionText.classList.add('gold');
+        }
+    }
+
+    function displaySubtitle(subtitle) {
+        voiceoverText.textContent = subtitle;
+        voiceoverText.classList.add('active');
+        
+        // Add gold accent to longer subtitles
+        if (subtitle.length > 80) {
+            voiceoverText.classList.add('gold');
+        }
+    }
+
+    function animateProgressBar(duration) {
+        progressBar.style.width = '0%';
+        progressBar.style.transition = `width ${duration}ms linear`;
+        
+        setTimeout(() => {
+            progressBar.style.width = '100%';
+        }, 50);
+    }
+
+    function clearContent() {
+        questionText.classList.remove('active', 'gold');
+        voiceoverText.classList.remove('active', 'gold');
+        progressBar.style.width = '0%';
+    }
+
+    function togglePlayPause() {
+        if (!isPlaying && !isPaused) {
+            startPresentation();
+        } else if (isPlaying) {
+            pausePresentation();
+        } else if (isPaused) {
+            resumePresentation();
+        }
+    }
+
+    function pausePresentation() {
+        isPlaying = false;
+        isPaused = true;
+        clearTimeout(presentationTimeout);
+        pauseCurrentAudio();
+        updatePlayPauseButton();
+    }
+
+    function resumePresentation() {
+        isPlaying = true;
+        isPaused = false;
+        updatePlayPauseButton();
+        
+        // Resume audio if it was playing
+        resumeCurrentAudio();
+        
+        // Resume from current position
+        showCurrentPair();
+    }
+
+    function restartPresentation() {
+        clearTimeout(presentationTimeout);
+        stopCurrentAudio();
+        isPlaying = false;
+        isPaused = false;
+        currentIndex = 0;
+        clearContent();
+        updatePlayPauseButton();
+        showWelcomeMessage();
+    }
+
+    function endPresentation() {
+        isPlaying = false;
+        isPaused = false;
+        clearTimeout(presentationTimeout);
+        stopCurrentAudio();
+        updatePlayPauseButton();
+        
+        // Show completion message
+        setTimeout(() => {
+            questionText.textContent = "Strategic Decision Support Complete";
+            questionText.classList.add('active', 'gold');
+            voiceoverText.textContent = "Ready to empower your executive decisions? Explore our CXO success stories below.";
+            voiceoverText.classList.add('active');
+            progressBar.style.width = '100%';
+        }, 500);
+    }
+
+    function updatePlayPauseButton() {
+        if (isPlaying) {
+            playIcon.style.display = 'none';
+            pauseIcon.style.display = 'block';
+        } else {
+            playIcon.style.display = 'block';
+            pauseIcon.style.display = 'none';
+        }
+    }
+
+    // Audio control functions
+    function playAudioForCurrentPair(pair) {
+        stopCurrentAudio(); // Stop any previous audio
+        
+        if (pair.audioId && audioElements[pair.audioId]) {
+            currentAudio = audioElements[pair.audioId];
+            currentAudio.currentTime = 0;
+            
+            currentAudio.play().catch(e => {
+                console.error('Audio playback failed:', e);
+            });
+        }
+    }
+    
+    function stopCurrentAudio() {
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+            currentAudio = null;
+        }
+    }
+    
+    function pauseCurrentAudio() {
+        if (currentAudio && !currentAudio.paused) {
+            currentAudio.pause();
+        }
+    }
+    
+    function resumeCurrentAudio() {
+        if (currentAudio && currentAudio.paused) {
+            currentAudio.play().catch(e => {
+                console.error('Audio resume failed:', e);
+            });
+        }
+    }
+
+    // Mobile responsiveness
+    function handleResize() {
+        const isMobile = window.innerWidth <= 768;
+        const questionEl = document.getElementById('questionText');
+        const voiceoverEl = document.getElementById('voiceoverText');
+        
+        if (isMobile) {
+            questionEl.style.fontSize = '24px';
+            voiceoverEl.style.fontSize = '18px';
+        } else {
+            questionEl.style.fontSize = '';
+            voiceoverEl.style.fontSize = '';
+        }
+    }
+
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Initial call
+});
