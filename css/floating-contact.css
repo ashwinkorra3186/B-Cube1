@@ -12,19 +12,20 @@
 .contact-button {
     background: var(--accent-color);
     color: white;
-    padding: 15px 10px;
-    border-radius: 0 20px 20px 0;
+    padding: 20px 8px;
+    border-radius: 0 15px 15px 0;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px;
+    gap: 3px;
     box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
     font-weight: 600;
-    font-size: 12px;
-    min-height: 80px;
+    font-size: 11px;
+    min-height: 120px;
     justify-content: center;
+    width: 40px;
 }
 
 .contact-button:hover {
@@ -33,19 +34,22 @@
 }
 
 .contact-button i {
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .contact-button span {
     font-weight: 600;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    letter-spacing: 1px;
 }
 
 /* Contact Panel */
 .contact-panel {
     position: fixed;
-    left: -450px;
+    left: -420px;
     top: 50%;
-    width: 400px;
+    width: 380px;
     background: white;
     border-radius: 15px;
     box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.15);

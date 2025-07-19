@@ -32,8 +32,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const contentText = document.getElementById('contentText');
     const subtitleText = document.getElementById('subtitleText');
     const progressBar = document.getElementById('progressBar');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
     const playPauseBtn = document.getElementById('playPauseBtn');
-    const restartBtn = document.getElementById('restartBtn');
     const playIcon = document.getElementById('playIcon');
     const pauseIcon = document.getElementById('pauseIcon');
     
@@ -57,21 +58,41 @@ document.addEventListener('DOMContentLoaded', function() {
     function init() {
         setupEventListeners();
         setupAudioEvents();
-        showWelcomeMessage();
+        showCurrentSegmentSilent(); // Start with first segment but no audio
     }
 
     function setupEventListeners() {
-        playPauseBtn.addEventListener('click', togglePlayPause);
-        restartBtn.addEventListener('click', restartPresentation);
+        if (prevBtn) {
+            prevBtn.addEventListener('click', function() {
+                pausePresentation();
+                showPreviousSegment();
+            });
+        }
+        
+        if (nextBtn) {
+            nextBtn.addEventListener('click', function() {
+                pausePresentation();
+                showNextSegment();
+            });
+        }
+        
+        if (playPauseBtn) {
+            playPauseBtn.addEventListener('click', togglePlayPause);
+        }
         
         // Keyboard controls
         document.addEventListener('keydown', function(e) {
-            if (e.code === 'Space') {
+            if (e.code === 'ArrowLeft') {
+                e.preventDefault();
+                pausePresentation();
+                showPreviousSegment();
+            } else if (e.code === 'ArrowRight') {
+                e.preventDefault();
+                pausePresentation();
+                showNextSegment();
+            } else if (e.code === 'Space') {
                 e.preventDefault();
                 togglePlayPause();
-            } else if (e.code === 'KeyR') {
-                e.preventDefault();
-                restartPresentation();
             }
         });
     }
@@ -92,32 +113,74 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    function showWelcomeMessage() {
-        contentText.textContent = "India Acceleration";
-        contentText.classList.add('active', 'gold');
-        subtitleText.textContent = "Click play to discover strategic guidance for the Indian market";
-        subtitleText.classList.add('active');
-        progressBar.style.width = '0%';
-    }
-
     function startPresentation() {
-        if (isPaused) {
-            resumePresentation();
-            return;
-        }
-
         isPlaying = true;
+        isPaused = false;
         currentIndex = 0;
         updatePlayPauseButton();
-        
-        // Start with first segment
         showCurrentSegment();
     }
+    
+    function pausePresentation() {
+        isPlaying = false;
+        isPaused = true;
+        clearTimeout(presentationTimeout);
+        pauseCurrentAudio();
+        updatePlayPauseButton();
+    }
+    
+    function resumePresentation() {
+        isPlaying = true;
+        isPaused = false;
+        updatePlayPauseButton();
+        resumeCurrentAudio();
+        scheduleNextSlide();
+    }
+    
+    function togglePlayPause() {
+        if (!isPlaying && !isPaused) {
+            startPresentation();
+        } else if (isPlaying) {
+            pausePresentation();
+        } else if (isPaused) {
+            resumePresentation();
+        }
+    }
+    
+    function updatePlayPauseButton() {
+        if (isPlaying) {
+            playIcon.style.display = 'none';
+            pauseIcon.style.display = 'block';
+        } else {
+            playIcon.style.display = 'block';
+            pauseIcon.style.display = 'none';
+        }
+    }
+    
+    function showPreviousSegment() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            showCurrentSegment();
+        }
+    }
+    
+    function showNextSegment() {
+        if (currentIndex < contentSegments.length - 1) {
+            currentIndex++;
+            showCurrentSegment();
+        }
+    }
+
 
     function showCurrentSegment() {
         if (currentIndex >= contentSegments.length) {
-            endPresentation();
-            return;
+            // Loop back to beginning if auto-playing
+            if (isPlaying) {
+                currentIndex = 0;
+            } else {
+                currentIndex = contentSegments.length - 1;
+                return;
+            }
         }
         
         const currentSegment = contentSegments[currentIndex];
@@ -129,17 +192,43 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => {
             displaySegment(currentSegment);
             playAudioForCurrentSegment(currentSegment);
-            animateProgressBar(currentSegment.duration, currentIndex, contentSegments.length);
             
-            // Schedule next segment after current duration
-            presentationTimeout = setTimeout(() => {
-                if (isPlaying) {
-                    stopCurrentAudio();
-                    currentIndex++;
-                    showCurrentSegment();
-                }
-            }, currentSegment.duration);
+            if (isPlaying) {
+                animateProgressBar(currentSegment.duration, currentIndex, contentSegments.length);
+                scheduleNextSlide();
+            } else {
+                updateProgressBar();
+            }
         }, 200);
+    }
+    
+    function showCurrentSegmentSilent() {
+        if (currentIndex >= contentSegments.length) {
+            currentIndex = contentSegments.length - 1;
+            return;
+        }
+        
+        const currentSegment = contentSegments[currentIndex];
+        
+        // Clear previous content
+        clearContent();
+        
+        // Show current segment without audio
+        setTimeout(() => {
+            displaySegment(currentSegment);
+            updateProgressBar();
+        }, 200);
+    }
+    
+    function scheduleNextSlide() {
+        const currentSegment = contentSegments[currentIndex];
+        presentationTimeout = setTimeout(() => {
+            if (isPlaying) {
+                stopCurrentAudio();
+                currentIndex++;
+                showCurrentSegment();
+            }
+        }, currentSegment.duration);
     }
 
     function displaySegment(segment) {
@@ -170,6 +259,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    function updateProgressBar() {
+        const progress = ((currentIndex + 1) / contentSegments.length) * 100;
+        progressBar.style.width = progress + '%';
+        progressBar.style.transition = 'width 0.3s ease';
+    }
+    
     function animateProgressBar(duration, currentIndex, totalSegments) {
         // Calculate progress based on segment completion
         const segmentProgress = (currentIndex / totalSegments) * 100;
@@ -189,73 +284,6 @@ document.addEventListener('DOMContentLoaded', function() {
         contentText.style.opacity = '1';
     }
 
-    function togglePlayPause() {
-        if (!isPlaying && !isPaused) {
-            startPresentation();
-        } else if (isPlaying) {
-            pausePresentation();
-        } else if (isPaused) {
-            resumePresentation();
-        }
-    }
-
-    function pausePresentation() {
-        isPlaying = false;
-        isPaused = true;
-        clearTimeout(presentationTimeout);
-        pauseCurrentAudio();
-        updatePlayPauseButton();
-    }
-
-    function resumePresentation() {
-        isPlaying = true;
-        isPaused = false;
-        updatePlayPauseButton();
-        
-        // Resume audio if it was playing
-        resumeCurrentAudio();
-        
-        // Resume from current position
-        showCurrentSegment();
-    }
-
-    function restartPresentation() {
-        clearTimeout(presentationTimeout);
-        stopCurrentAudio();
-        isPlaying = false;
-        isPaused = false;
-        currentIndex = 0;
-        clearContent();
-        updatePlayPauseButton();
-        showWelcomeMessage();
-    }
-
-    function endPresentation() {
-        isPlaying = false;
-        isPaused = false;
-        clearTimeout(presentationTimeout);
-        stopCurrentAudio();
-        updatePlayPauseButton();
-        
-        // Show completion message
-        setTimeout(() => {
-            contentText.textContent = "India Market Strategy Complete";
-            contentText.classList.add('active', 'gold');
-            subtitleText.textContent = "Ready to accelerate your India market entry? Explore our success stories below.";
-            subtitleText.classList.add('active');
-            progressBar.style.width = '100%';
-        }, 500);
-    }
-
-    function updatePlayPauseButton() {
-        if (isPlaying) {
-            playIcon.style.display = 'none';
-            pauseIcon.style.display = 'block';
-        } else {
-            playIcon.style.display = 'block';
-            pauseIcon.style.display = 'none';
-        }
-    }
 
     // Audio control functions
     function playAudioForCurrentSegment(segment) {
@@ -265,8 +293,35 @@ document.addEventListener('DOMContentLoaded', function() {
             currentAudio = audioElements[segment.audioId];
             currentAudio.currentTime = 0;
             
+            // Ensure audio can play with explicit volume
+            currentAudio.volume = 1.0;
+            
+            const playPromise = currentAudio.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    console.log('Audio playing successfully');
+                }).catch(e => {
+                    console.error('Audio playback failed:', e);
+                    // Try to enable audio on first user interaction
+                    document.addEventListener('click', enableAudio, { once: true });
+                });
+            }
+        }
+    }
+    
+    function enableAudio() {
+        // This will be called on first user interaction to enable audio
+        Object.values(audioElements).forEach(audio => {
+            if (audio) {
+                audio.load();
+            }
+        });
+        
+        // Only restart current slide audio if it's not already playing
+        if (currentAudio && currentAudio.paused) {
+            currentAudio.currentTime = 0;
             currentAudio.play().catch(e => {
-                console.error('Audio playback failed:', e);
+                console.error('Audio enable failed:', e);
             });
         }
     }
@@ -292,6 +347,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     }
+    
 
     // Mobile responsiveness
     function handleResize() {

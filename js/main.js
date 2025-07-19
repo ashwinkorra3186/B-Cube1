@@ -8,8 +8,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const header = document.querySelector('.header');
     const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
     const mainNav = document.querySelector('.main-nav');
-    const testimonialSlider = document.querySelector('.testimonial-slider');
-    const testimonialSlides = document.querySelectorAll('.testimonial-slide');
+    const testimonialSlider = document.querySelector('.testimonial-slider-compact');
+    const testimonialSlides = document.querySelectorAll('.testimonial-slider-compact .testimonial-slide');
     const prevTestimonialBtn = document.querySelector('.prev-testimonial');
     const nextTestimonialBtn = document.querySelector('.next-testimonial');
     const testimonialDots = document.querySelector('.testimonial-dots');
@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initTestimonialSlider();
     initSmoothScroll();
     initContactForm();
-    createTestimonialDots();
     initStatCounters();
     // initHeroScrollTransition(); // Removed hero questions functionality
     
@@ -64,6 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!testimonialSlider || testimonialSlides.length === 0) return;
         
         let currentSlide = 0;
+        let autoRotateInterval;
         
         // Hide all slides except the first one
         testimonialSlides.forEach((slide, index) => {
@@ -72,19 +72,40 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
+        // Auto-rotate testimonials every 5 seconds
+        function startAutoRotate() {
+            autoRotateInterval = setInterval(() => {
+                showSlide(currentSlide + 1);
+            }, 5000);
+        }
+        
+        function stopAutoRotate() {
+            if (autoRotateInterval) {
+                clearInterval(autoRotateInterval);
+            }
+        }
+        
         // Previous button click
         if (prevTestimonialBtn) {
             prevTestimonialBtn.addEventListener('click', function() {
+                stopAutoRotate();
                 showSlide(currentSlide - 1);
+                startAutoRotate();
             });
         }
         
         // Next button click
         if (nextTestimonialBtn) {
             nextTestimonialBtn.addEventListener('click', function() {
+                stopAutoRotate();
                 showSlide(currentSlide + 1);
+                startAutoRotate();
             });
         }
+        
+        // Pause auto-rotate on hover
+        testimonialSlider.addEventListener('mouseenter', stopAutoRotate);
+        testimonialSlider.addEventListener('mouseleave', startAutoRotate);
         
         // Show a specific slide
         function showSlide(index) {
@@ -107,6 +128,9 @@ document.addEventListener('DOMContentLoaded', function() {
             // Update current slide index
             currentSlide = index;
         }
+        
+        // Start auto-rotation
+        startAutoRotate();
         
         // Create dots for testimonial slider
         function createTestimonialDots() {
@@ -264,29 +288,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initScrollAnimations();
 });
 
-// Create testimonial dots when the DOM is loaded
-function createTestimonialDots() {
-    const testimonialDots = document.querySelector('.testimonial-dots');
-    const testimonialSlides = document.querySelectorAll('.testimonial-slide');
-    
-    if (!testimonialDots || !testimonialSlides.length) return;
-    
-    testimonialSlides.forEach((_, index) => {
-        const dot = document.createElement('div');
-        dot.classList.add('dot');
-        if (index === 0) {
-            dot.classList.add('active');
-        }
-        
-        dot.addEventListener('click', function() {
-            // This will be handled by the slider function
-            const event = new CustomEvent('dotClicked', { detail: { index } });
-            testimonialDots.dispatchEvent(event);
-        });
-        
-        testimonialDots.appendChild(dot);
-    });
-}
 
 /**
  * Stat Counters Animation

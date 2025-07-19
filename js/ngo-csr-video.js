@@ -1,33 +1,40 @@
 /**
- * NGO/CSR Video JavaScript
- * Simple question-subtitle pair with audio13
+ * NGO/CSR Video JavaScript - Manual Navigation Version
+ * Clean question-subtitle presentation with manual navigation
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Single Question-Subtitle Pair
-    const questionSubtitlePair = {
-        question: "Is the impact of your fund / effort / investment measured/monitored?",
-        subtitle: "Monitor and measure the impact in true to ground-reality, by application of scientific methodologies.",
-        duration: 12000, // 12 seconds
-        audioId: "audio13"
-    };
+    // Question-Subtitle Pairs with individual timing and audio
+    const questionSubtitlePairs = [
+        {
+            question: "Is the impact of your fund / effort / investment measured/monitored?",
+            subtitle: "Monitor and measure the impact in true to ground-reality, by application of scientific methodologies.",
+            duration: 12000, // 12 seconds
+            audioId: "audio13"
+        }
+    ];
 
     // DOM Elements
     const questionText = document.getElementById('questionText');
     const voiceoverText = document.getElementById('voiceoverText');
     const progressBar = document.getElementById('progressBar');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
     const playPauseBtn = document.getElementById('playPauseBtn');
-    const restartBtn = document.getElementById('restartBtn');
     const playIcon = document.getElementById('playIcon');
     const pauseIcon = document.getElementById('pauseIcon');
     
-    // Audio element
-    const audio = document.getElementById('audio13');
+    // Audio elements
+    const audioElements = {
+        audio13: document.getElementById('audio13')
+    };
 
     // State Management
+    let currentIndex = 0;
+    let currentAudio = null;
     let isPlaying = false;
     let isPaused = false;
-    let presentationTimeout;
+    let presentationTimeout = null;
 
     // Initialize
     init();
@@ -35,97 +42,124 @@ document.addEventListener('DOMContentLoaded', function() {
     function init() {
         setupEventListeners();
         setupAudioEvents();
-        showWelcomeMessage();
+        showCurrentPair();
     }
 
     function setupEventListeners() {
-        playPauseBtn.addEventListener('click', togglePlayPause);
-        restartBtn.addEventListener('click', restartPresentation);
+        if (prevBtn) {
+            prevBtn.addEventListener('click', showPreviousQuestion);
+        }
+        
+        if (nextBtn) {
+            nextBtn.addEventListener('click', showNextQuestion);
+        }
+        
+        if (playPauseBtn) {
+            playPauseBtn.addEventListener('click', togglePlayPause);
+        }
         
         // Keyboard controls
         document.addEventListener('keydown', function(e) {
-            if (e.code === 'Space') {
+            if (e.code === 'ArrowLeft') {
+                e.preventDefault();
+                showPreviousQuestion();
+            } else if (e.code === 'ArrowRight') {
+                e.preventDefault();
+                showNextQuestion();
+            } else if (e.code === 'Space') {
                 e.preventDefault();
                 togglePlayPause();
-            } else if (e.code === 'KeyR') {
-                e.preventDefault();
-                restartPresentation();
             }
         });
     }
     
     function setupAudioEvents() {
-        if (audio) {
+        // Setup error handling for all audio elements
+        Object.values(audioElements).forEach(audio => {
             audio.addEventListener('error', function(e) {
                 console.error('Audio loading error:', e);
             });
             
             audio.addEventListener('ended', function() {
+                // Audio finished playing naturally
                 console.log('Audio finished playing');
-                // Auto transition to completion after audio ends
-                setTimeout(() => {
-                    endPresentation();
-                }, 1000);
             });
+        });
+    }
+
+    function showPreviousQuestion() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            showCurrentPair();
+            playAudioForCurrentSlide();
+        }
+    }
+    
+    function showNextQuestion() {
+        if (currentIndex < questionSubtitlePairs.length - 1) {
+            currentIndex++;
+            showCurrentPair();
+            playAudioForCurrentSlide();
+        }
+    }
+    
+    function playAudioForCurrentSlide() {
+        const currentPair = questionSubtitlePairs[currentIndex];
+        if (currentPair.audioId && audioElements[currentPair.audioId]) {
+            playAudioForCurrentPair(currentPair);
         }
     }
 
-    function showWelcomeMessage() {
-        questionText.textContent = "NGO/CSR Services";
-        questionText.classList.add('active', 'gold');
-        voiceoverText.textContent = "Click play to discover impact measurement and monitoring solutions";
-        voiceoverText.classList.add('active');
-        progressBar.style.width = '0%';
-    }
-
-    function startPresentation() {
-        if (isPaused) {
-            resumePresentation();
-            return;
-        }
-
-        isPlaying = true;
-        updatePlayPauseButton();
+    function showCurrentPair() {
+        const currentPair = questionSubtitlePairs[currentIndex];
         
         // Clear previous content
         clearContent();
         
         // Show question and subtitle together
         setTimeout(() => {
-            displayQuestionSubtitle();
-            playAudio();
-            animateProgressBar();
+            displayQuestion(currentPair.question);
+            displaySubtitle(currentPair.subtitle);
+            updateProgressBar();
             
-            // Schedule completion after duration
-            presentationTimeout = setTimeout(() => {
-                if (isPlaying) {
-                    stopAudio();
-                    endPresentation();
-                }
-            }, questionSubtitlePair.duration);
+            // For single-slide pages with auto-play capability
+            if (isPlaying && !isPaused) {
+                playAudioForCurrentSlide();
+                scheduleNextSlide();
+            }
         }, 200);
     }
 
-    function displayQuestionSubtitle() {
-        // Display question
-        questionText.textContent = questionSubtitlePair.question;
-        questionText.classList.add('active', 'gold');
+    function displayQuestion(question) {
+        questionText.textContent = question;
+        questionText.classList.add('active');
         
-        // Display subtitle
-        voiceoverText.textContent = questionSubtitlePair.subtitle;
+        // Add gold accent to every other question
+        if (currentIndex % 2 === 0) {
+            questionText.classList.add('gold');
+        }
+    }
+
+    function displaySubtitle(subtitle) {
+        voiceoverText.textContent = subtitle;
         voiceoverText.classList.add('active');
-        if (questionSubtitlePair.subtitle.length > 80) {
+        
+        // Add gold accent to longer subtitles
+        if (subtitle.length > 50) {
             voiceoverText.classList.add('gold');
         }
     }
 
-    function animateProgressBar() {
-        progressBar.style.width = '0%';
-        progressBar.style.transition = `width ${questionSubtitlePair.duration}ms linear`;
-        
-        setTimeout(() => {
-            progressBar.style.width = '100%';
-        }, 50);
+    function updateProgressBar() {
+        const totalSlides = questionSubtitlePairs.length;
+        const progress = ((currentIndex + 1) / totalSlides) * 100;
+        progressBar.style.width = progress + '%';
+        progressBar.style.transition = 'width 0.3s ease';
+    }
+    
+    function animateProgressBar(duration) {
+        progressBar.style.transition = `width ${duration}ms linear`;
+        progressBar.style.width = '100%';
     }
 
     function clearContent() {
@@ -134,103 +168,150 @@ document.addEventListener('DOMContentLoaded', function() {
         progressBar.style.width = '0%';
     }
 
+    // Audio control functions
+    function playAudioForCurrentPair(pair) {
+        stopCurrentAudio(); // Stop any previous audio
+        
+        if (pair.audioId && audioElements[pair.audioId]) {
+            currentAudio = audioElements[pair.audioId];
+            currentAudio.currentTime = 0;
+            
+            // Ensure audio can play with explicit volume and load
+            currentAudio.volume = 1.0;
+            currentAudio.load();
+            
+            const playPromise = currentAudio.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    console.log('Audio playing successfully');
+                }).catch(e => {
+                    console.error('Audio playback failed:', e);
+                    // Try to enable audio on first user interaction
+                    document.addEventListener('click', enableAudio, { once: true });
+                });
+            }
+        }
+    }
+    
+    function enableAudio() {
+        // This will be called on first user interaction to enable audio
+        Object.values(audioElements).forEach(audio => {
+            if (audio) {
+                audio.load();
+            }
+        });
+        
+        // Restart current slide to play audio
+        if (currentAudio) {
+            currentAudio.play().catch(e => {
+                console.error('Audio enable failed:', e);
+            });
+        }
+    }
+    
+    function stopCurrentAudio() {
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+            currentAudio = null;
+        }
+    }
+    
+    function pauseCurrentAudio() {
+        if (currentAudio && !currentAudio.paused) {
+            currentAudio.pause();
+        }
+    }
+    
+    function resumeCurrentAudio() {
+        if (currentAudio && currentAudio.paused) {
+            currentAudio.play().catch(e => {
+                console.error('Audio resume failed:', e);
+            });
+        }
+    }
+    
+    // Auto-play functions for single-slide pages
+    function startPresentation() {
+        isPlaying = true;
+        isPaused = false;
+        updatePlayPauseButton();
+        showCurrentPair();
+    }
+    
+    function pausePresentation() {
+        isPaused = true;
+        isPlaying = false;
+        updatePlayPauseButton();
+        pauseCurrentAudio();
+        
+        if (presentationTimeout) {
+            clearTimeout(presentationTimeout);
+            presentationTimeout = null;
+        }
+    }
+    
+    function resumePresentation() {
+        isPaused = false;
+        isPlaying = true;
+        updatePlayPauseButton();
+        resumeCurrentAudio();
+        
+        // Continue with remaining time if audio is still playing
+        const currentPair = questionSubtitlePairs[currentIndex];
+        if (currentAudio && !currentAudio.ended) {
+            const remainingTime = (currentPair.duration || 5000) - (currentAudio.currentTime * 1000);
+            if (remainingTime > 0) {
+                scheduleNextSlide(remainingTime);
+            }
+        }
+    }
+    
     function togglePlayPause() {
         if (!isPlaying && !isPaused) {
             startPresentation();
-        } else if (isPlaying) {
+        } else if (isPlaying && !isPaused) {
             pausePresentation();
         } else if (isPaused) {
             resumePresentation();
         }
     }
-
-    function pausePresentation() {
-        isPlaying = false;
-        isPaused = true;
-        clearTimeout(presentationTimeout);
-        pauseAudio();
-        updatePlayPauseButton();
-    }
-
-    function resumePresentation() {
-        isPlaying = true;
-        isPaused = false;
-        updatePlayPauseButton();
-        
-        // Resume audio
-        resumeAudio();
-        
-        // Resume from current position - simplified for single pair
-        startPresentation();
-    }
-
-    function restartPresentation() {
-        clearTimeout(presentationTimeout);
-        stopAudio();
-        isPlaying = false;
-        isPaused = false;
-        clearContent();
-        updatePlayPauseButton();
-        showWelcomeMessage();
-    }
-
-    function endPresentation() {
-        isPlaying = false;
-        isPaused = false;
-        clearTimeout(presentationTimeout);
-        stopAudio();
-        updatePlayPauseButton();
-        
-        // Show completion message
-        setTimeout(() => {
-            questionText.textContent = "Impact Measurement Strategy Complete";
-            questionText.classList.add('active', 'gold');
-            voiceoverText.textContent = "Ready to drive accountability and impact? Explore our case studies below.";
-            voiceoverText.classList.add('active');
-            progressBar.style.width = '100%';
-        }, 500);
-    }
-
+    
     function updatePlayPauseButton() {
-        if (isPlaying) {
-            playIcon.style.display = 'none';
-            pauseIcon.style.display = 'block';
-        } else {
-            playIcon.style.display = 'block';
-            pauseIcon.style.display = 'none';
-        }
-    }
-
-    // Audio control functions
-    function playAudio() {
-        if (audio) {
-            audio.currentTime = 0;
-            audio.play().catch(e => {
-                console.error('Audio playback failed:', e);
-            });
+        if (playIcon && pauseIcon) {
+            if (isPlaying && !isPaused) {
+                playIcon.style.display = 'none';
+                pauseIcon.style.display = 'inline';
+            } else {
+                playIcon.style.display = 'inline';
+                pauseIcon.style.display = 'none';
+            }
         }
     }
     
-    function stopAudio() {
-        if (audio) {
-            audio.pause();
-            audio.currentTime = 0;
+    function scheduleNextSlide(customDuration = null) {
+        const currentPair = questionSubtitlePairs[currentIndex];
+        const duration = customDuration || currentPair.duration || 5000;
+        
+        if (presentationTimeout) {
+            clearTimeout(presentationTimeout);
         }
+        
+        presentationTimeout = setTimeout(() => {
+            // For single-slide pages, restart the slide
+            if (questionSubtitlePairs.length === 1) {
+                // Reset to allow replay
+                isPlaying = false;
+                isPaused = false;
+                updatePlayPauseButton();
+                progressBar.style.width = '0%';
+            }
+        }, duration);
+        
+        // Animate progress bar
+        animateProgressBar(duration);
     }
     
-    function pauseAudio() {
-        if (audio && !audio.paused) {
-            audio.pause();
-        }
-    }
-    
-    function resumeAudio() {
-        if (audio && audio.paused) {
-            audio.play().catch(e => {
-                console.error('Audio resume failed:', e);
-            });
-        }
-    }
 
     // Mobile responsiveness
     function handleResize() {

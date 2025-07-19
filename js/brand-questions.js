@@ -42,8 +42,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const questionText = document.getElementById('questionText');
     const voiceoverText = document.getElementById('voiceoverText');
     const progressBar = document.getElementById('progressBar');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
     const playPauseBtn = document.getElementById('playPauseBtn');
-    const restartBtn = document.getElementById('restartBtn');
     const playIcon = document.getElementById('playIcon');
     const pauseIcon = document.getElementById('pauseIcon');
     
@@ -69,21 +70,41 @@ document.addEventListener('DOMContentLoaded', function() {
     function init() {
         setupEventListeners();
         setupAudioEvents();
-        showWelcomeMessage();
+        showCurrentPairSilent(); // Start with first question but no audio
     }
 
     function setupEventListeners() {
-        playPauseBtn.addEventListener('click', togglePlayPause);
-        restartBtn.addEventListener('click', restartPresentation);
+        if (prevBtn) {
+            prevBtn.addEventListener('click', function() {
+                pausePresentation();
+                showPreviousQuestion();
+            });
+        }
+        
+        if (nextBtn) {
+            nextBtn.addEventListener('click', function() {
+                pausePresentation();
+                showNextQuestion();
+            });
+        }
+        
+        if (playPauseBtn) {
+            playPauseBtn.addEventListener('click', togglePlayPause);
+        }
         
         // Keyboard controls
         document.addEventListener('keydown', function(e) {
-            if (e.code === 'Space') {
+            if (e.code === 'ArrowLeft') {
+                e.preventDefault();
+                pausePresentation();
+                showPreviousQuestion();
+            } else if (e.code === 'ArrowRight') {
+                e.preventDefault();
+                pausePresentation();
+                showNextQuestion();
+            } else if (e.code === 'Space') {
                 e.preventDefault();
                 togglePlayPause();
-            } else if (e.code === 'KeyR') {
-                e.preventDefault();
-                restartPresentation();
             }
         });
     }
@@ -102,32 +123,74 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    function showWelcomeMessage() {
-        questionText.textContent = "Brand Strategy Questions";
-        questionText.classList.add('active', 'gold');
-        voiceoverText.textContent = "Click play to begin your brand exploration journey";
-        voiceoverText.classList.add('active');
-        progressBar.style.width = '0%';
-    }
-
     function startPresentation() {
-        if (isPaused) {
-            resumePresentation();
-            return;
-        }
-
         isPlaying = true;
+        isPaused = false;
         currentIndex = 0;
         updatePlayPauseButton();
-        
-        // Start with first question-subtitle pair
         showCurrentPair();
     }
+    
+    function pausePresentation() {
+        isPlaying = false;
+        isPaused = true;
+        clearTimeout(presentationTimeout);
+        pauseCurrentAudio();
+        updatePlayPauseButton();
+    }
+    
+    function resumePresentation() {
+        isPlaying = true;
+        isPaused = false;
+        updatePlayPauseButton();
+        resumeCurrentAudio();
+        scheduleNextSlide();
+    }
+    
+    function togglePlayPause() {
+        if (!isPlaying && !isPaused) {
+            startPresentation();
+        } else if (isPlaying) {
+            pausePresentation();
+        } else if (isPaused) {
+            resumePresentation();
+        }
+    }
+    
+    function updatePlayPauseButton() {
+        if (isPlaying) {
+            playIcon.style.display = 'none';
+            pauseIcon.style.display = 'block';
+        } else {
+            playIcon.style.display = 'block';
+            pauseIcon.style.display = 'none';
+        }
+    }
+    
+    function showPreviousQuestion() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            showCurrentPair();
+        }
+    }
+    
+    function showNextQuestion() {
+        if (currentIndex < questionSubtitlePairs.length - 1) {
+            currentIndex++;
+            showCurrentPair();
+        }
+    }
+
 
     function showCurrentPair() {
         if (currentIndex >= questionSubtitlePairs.length) {
-            endPresentation();
-            return;
+            // Loop back to beginning if auto-playing
+            if (isPlaying) {
+                currentIndex = 0;
+            } else {
+                currentIndex = questionSubtitlePairs.length - 1;
+                return;
+            }
         }
         
         const currentPair = questionSubtitlePairs[currentIndex];
@@ -140,17 +203,39 @@ document.addEventListener('DOMContentLoaded', function() {
             displayQuestion(currentPair.question);
             displaySubtitle(currentPair.subtitle);
             playAudioForCurrentPair(currentPair);
-            animateProgressBar(currentPair.duration);
             
-            // Schedule next pair after current duration
-            presentationTimeout = setTimeout(() => {
-                if (isPlaying) {
-                    stopCurrentAudio();
-                    currentIndex++;
-                    showCurrentPair();
-                }
-            }, currentPair.duration);
+            if (isPlaying) {
+                animateProgressBar(currentPair.duration);
+                scheduleNextSlide();
+            } else {
+                updateProgressBar();
+            }
         }, 200);
+    }
+
+    function showCurrentPairSilent() {
+        const currentPair = questionSubtitlePairs[currentIndex];
+        
+        // Clear previous content
+        clearContent();
+        
+        // Show question and subtitle together but NO AUDIO
+        setTimeout(() => {
+            displayQuestion(currentPair.question);
+            displaySubtitle(currentPair.subtitle);
+            updateProgressBar();
+        }, 200);
+    }
+    
+    function scheduleNextSlide() {
+        const currentPair = questionSubtitlePairs[currentIndex];
+        presentationTimeout = setTimeout(() => {
+            if (isPlaying) {
+                stopCurrentAudio();
+                currentIndex++;
+                showCurrentPair();
+            }
+        }, currentPair.duration);
     }
 
     function displayQuestion(question) {
@@ -173,6 +258,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    function updateProgressBar() {
+        const progress = ((currentIndex + 1) / questionSubtitlePairs.length) * 100;
+        progressBar.style.width = progress + '%';
+        progressBar.style.transition = 'width 0.3s ease';
+    }
+    
     function animateProgressBar(duration) {
         progressBar.style.width = '0%';
         progressBar.style.transition = `width ${duration}ms linear`;
@@ -188,73 +279,6 @@ document.addEventListener('DOMContentLoaded', function() {
         progressBar.style.width = '0%';
     }
 
-    function togglePlayPause() {
-        if (!isPlaying && !isPaused) {
-            startPresentation();
-        } else if (isPlaying) {
-            pausePresentation();
-        } else if (isPaused) {
-            resumePresentation();
-        }
-    }
-
-    function pausePresentation() {
-        isPlaying = false;
-        isPaused = true;
-        clearTimeout(presentationTimeout);
-        pauseCurrentAudio();
-        updatePlayPauseButton();
-    }
-
-    function resumePresentation() {
-        isPlaying = true;
-        isPaused = false;
-        updatePlayPauseButton();
-        
-        // Resume audio if it was playing
-        resumeCurrentAudio();
-        
-        // Resume from current position
-        showCurrentPair();
-    }
-
-    function restartPresentation() {
-        clearTimeout(presentationTimeout);
-        stopCurrentAudio();
-        isPlaying = false;
-        isPaused = false;
-        currentIndex = 0;
-        clearContent();
-        updatePlayPauseButton();
-        showWelcomeMessage();
-    }
-
-    function endPresentation() {
-        isPlaying = false;
-        isPaused = false;
-        clearTimeout(presentationTimeout);
-        stopCurrentAudio();
-        updatePlayPauseButton();
-        
-        // Show completion message
-        setTimeout(() => {
-            questionText.textContent = "Brand Strategy Complete";
-            questionText.classList.add('active', 'gold');
-            voiceoverText.textContent = "Thank you for exploring your brand identity. Click restart to begin again.";
-            voiceoverText.classList.add('active');
-            progressBar.style.width = '100%';
-        }, 500);
-    }
-
-    function updatePlayPauseButton() {
-        if (isPlaying) {
-            playIcon.style.display = 'none';
-            pauseIcon.style.display = 'block';
-        } else {
-            playIcon.style.display = 'block';
-            pauseIcon.style.display = 'none';
-        }
-    }
 
     // Mobile responsiveness
     function handleResize() {
@@ -279,8 +303,35 @@ document.addEventListener('DOMContentLoaded', function() {
             currentAudio = audioElements[pair.audioId];
             currentAudio.currentTime = 0;
             
+            // Ensure audio can play with explicit volume
+            currentAudio.volume = 1.0;
+            
+            const playPromise = currentAudio.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    console.log('Audio playing successfully');
+                }).catch(e => {
+                    console.error('Audio playback failed:', e);
+                    // Try to enable audio on first user interaction
+                    document.addEventListener('click', enableAudio, { once: true });
+                });
+            }
+        }
+    }
+    
+    function enableAudio() {
+        // This will be called on first user interaction to enable audio
+        Object.values(audioElements).forEach(audio => {
+            if (audio) {
+                audio.load();
+            }
+        });
+        
+        // Only restart current slide audio if it's not already playing
+        if (currentAudio && currentAudio.paused) {
+            currentAudio.currentTime = 0;
             currentAudio.play().catch(e => {
-                console.error('Audio playback failed:', e);
+                console.error('Audio enable failed:', e);
             });
         }
     }
@@ -306,6 +357,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     }
+    
 
     window.addEventListener('resize', handleResize);
     handleResize(); // Initial call
