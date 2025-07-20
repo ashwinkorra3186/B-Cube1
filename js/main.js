@@ -72,11 +72,11 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        // Auto-rotate testimonials every 5 seconds
+        // Auto-rotate testimonials every 10 seconds
         function startAutoRotate() {
             autoRotateInterval = setInterval(() => {
                 showSlide(currentSlide + 1);
-            }, 5000);
+            }, 10000);
         }
         
         function stopAutoRotate() {
@@ -165,10 +165,10 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
         
-        // Auto-advance slides every 5 seconds
+        // Auto-advance slides every 10 seconds
         setInterval(function() {
             showSlide(currentSlide + 1);
-        }, 5000);
+        }, 10000);
     }
     
     /**

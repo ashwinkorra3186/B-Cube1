@@ -20,7 +20,7 @@
     
     /* Spacing */
     --section-spacing: 100px;
-    --container-padding: 15px;
+    --container-padding: 5px;
 }
 
 /* Dark Mode Variables removed */
@@ -83,7 +83,7 @@ img {
 
 .container {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 0 var(--container-padding);
 }
@@ -2037,6 +2037,89 @@ img {
     transform: translateX(5px);
 }
 
+/* New Professional Case Study Styling */
+.case-study-item {
+    background: var(--secondary-color);
+    padding: 40px 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    text-align: left;
+    border-left: 4px solid var(--accent-color);
+    margin-bottom: 30px;
+}
+
+.case-study-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.case-study-header {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--medium-gray);
+}
+
+.case-study-header h3 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    font-family: var(--heading-font);
+}
+
+.case-study-subtitle {
+    font-size: 16px;
+    color: var(--dark-gray);
+    font-style: italic;
+    line-height: 1.5;
+    margin-bottom: 0;
+}
+
+.case-study-section {
+    margin-bottom: 25px;
+}
+
+.case-study-section h4 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--accent-color);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-family: var(--body-font);
+}
+
+.case-study-section p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text-color);
+    margin-bottom: 15px;
+}
+
+.case-study-section p:last-child {
+    margin-bottom: 0;
+}
+
+.case-study-section strong {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.case-study-credit {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--medium-gray);
+    text-align: right;
+}
+
+.case-study-credit p {
+    font-size: 13px;
+    color: var(--dark-gray);
+    margin-bottom: 0;
+    font-style: italic;
+}
+
 /* ===== Team Section ===== */
 .team {
     padding: var(--section-spacing) 0;
@@ -2254,6 +2337,18 @@ img {
     gap: 50px;
     padding-bottom: 50px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 40px;
+}
+
+.footer-logo img {
+    height: 60px;
+    width: auto;
 }
 
 .footer-logo h2 {
@@ -3258,6 +3353,10 @@ img {
     background-color: var(--secondary-color);
 }
 
+.trust-section .section-header h2 {
+    font-weight: 400;
+}
+
 .trusted-by h2 {
     font-size: 36px;
     margin-bottom: 50px;
@@ -3266,7 +3365,8 @@ img {
 
 .trust-logos {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
     gap: 25px;
     max-width: 1200px;
     margin: 0 auto;
@@ -3772,6 +3872,10 @@ img {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     border: 2px solid transparent;
     transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 350px;
 }
 
 .testimonials-showcase .testimonial-card:hover {
@@ -3786,10 +3890,12 @@ img {
     color: var(--dark-gray);
     margin-bottom: 1.5rem;
     font-style: italic;
+    flex-grow: 1;
 }
 
 .testimonials-showcase .testimonial-author {
-    margin-top: 1.5rem;
+    margin-top: auto;
+    padding-top: 1.5rem;
 }
 
 .testimonials-grid {
@@ -4550,8 +4656,8 @@ img {
 
 .hero-services-content {
     display: grid;
-    grid-template-columns: 15% 60% 25%;
-    gap: 30px;
+    grid-template-columns: 12% 63% 25%;
+    gap: 15px;
     align-items: start;
     height: 100%;
 }
@@ -4581,7 +4687,7 @@ img {
     height: 550px;
     overflow: hidden;
     position: relative;
-    margin-left: -50px;
+    margin-left: -80px;
     margin-top: 80px;
 }
 
@@ -4817,8 +4923,8 @@ img {
 
 .testimonials-column .testimonials-header {
     text-align: center;
-    margin-bottom: 25px;
-    height: 60px;
+    margin-bottom: 20px;
+    height: 50px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -4832,7 +4938,7 @@ img {
 }
 
 .testimonial-slider-compact {
-    height: 700px;
+    height: 620px;
     overflow: hidden;
     position: relative;
 }
@@ -4879,21 +4985,11 @@ img {
     flex-grow: 1;
 }
 
-/* Dynamic font sizing based on content length */
-.testimonial-slide.short-content .testimonial-content > p {
-    font-size: 22px;
-    line-height: 1.8;
-    font-weight: 500;
-}
-
-.testimonial-slide.medium-content .testimonial-content > p {
-    font-size: 18px;
-    line-height: 1.7;
-}
-
-.testimonial-slide.long-content .testimonial-content p {
+/* Consistent font sizing for all testimonials */
+.testimonial-slide .testimonial-content p {
     font-size: 14px;
-    line-height: 1.5;
+    line-height: 1.6;
+    font-weight: 400;
 }
 
 .testimonial-slider-compact .testimonial-author {
