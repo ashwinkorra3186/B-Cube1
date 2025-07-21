@@ -11,7 +11,7 @@
 /* Contact Button */
 .contact-button {
     background: var(--accent-color);
-    color: white;
+    color: black;
     padding: 20px 8px;
     border-radius: 0 15px 15px 0;
     cursor: pointer;

@@ -61,10 +61,6 @@
                     <button class="control-btn" id="prevBtn">
                         <i class="fas fa-chevron-left"></i>
                     </button>
-                    <button class="control-btn play-pause-btn" id="playPauseBtn">
-                        <i class="fas fa-play" id="playIcon"></i>
-                        <i class="fas fa-pause" id="pauseIcon" style="display: none;"></i>
-                    </button>
                     <button class="control-btn" id="nextBtn">
                         <i class="fas fa-chevron-right"></i>
                     </button>
@@ -72,8 +68,14 @@
             </div>
         </div>
         
+        <!-- Mute/Unmute Button - Positioned at screen right edge but within section -->
+        <button class="control-btn mute-unmute-btn-right" id="muteUnmuteBtn">
+            <i class="fas fa-volume-up" id="unmuteIcon" style="display: none;"></i>
+            <i class="fas fa-volume-mute" id="muteIcon"></i>
+        </button>
+        
         <!-- Audio Elements -->
-        <audio id="audio13" preload="auto">
+        <audio id="audio13" preload="auto" muted>
             <source src="assets/audio/audio13.mp3" type="audio/mpeg">
         </audio>
     </section>
@@ -104,21 +106,36 @@
                 <div class="case-studies-grid">
                     <div class="case-study-item">
                         <div class="case-study-header">
+                            <div class="case-study-logo">
+                                <img src="assets/images/Acumen_Logo.png" alt="Acumen Logo">
+                            </div>
                             <h3>Acumen</h3>
+                        </div>
+                        <div class="case-study-description">
                             <p class="case-study-subtitle">An American social-impact fund</p>
                         </div>
                     </div>
                     
                     <div class="case-study-item">
                         <div class="case-study-header">
+                            <div class="case-study-logo">
+                                <img src="assets/images/North.jpg" alt="North-East Empowerment Forum Logo">
+                            </div>
                             <h3>North-East Empowerment Forum</h3>
+                        </div>
+                        <div class="case-study-description">
                             <p class="case-study-subtitle">A social-enterprise towards livelihood enablement amongst North-Eastern states of India.</p>
                         </div>
                     </div>
                     
                     <div class="case-study-item">
                         <div class="case-study-header">
+                            <div class="case-study-logo">
+                                <img src="assets/images/Pyara-bharat.jpeg" alt="Bharat-Pyara Logo">
+                            </div>
                             <h3>Bharat-Pyara</h3>
+                        </div>
+                        <div class="case-study-description">
                             <p class="case-study-subtitle">A European fund social-initiative towards upliftment of disabled, skill-development, child-care, education and medical aid.</p>
                         </div>
                     </div>
@@ -155,15 +172,6 @@
                 </button>
             </div>
             <div class="contact-info">
-                <div class="contact-item">
-                    <div class="contact-icon">
-                        <i class="fas fa-map-marker-alt"></i>
-                    </div>
-                    <div class="contact-text">
-                        <h4>Location</h4>
-                        <p>Singapore</p>
-                    </div>
-                </div>
                 <div class="contact-item">
                     <div class="contact-icon">
                         <i class="fas fa-phone"></i>

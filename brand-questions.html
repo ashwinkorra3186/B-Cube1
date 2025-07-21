@@ -61,10 +61,6 @@
                     <button class="control-btn" id="prevBtn">
                         <i class="fas fa-chevron-left"></i>
                     </button>
-                    <button class="control-btn play-pause-btn" id="playPauseBtn">
-                        <i class="fas fa-play" id="playIcon"></i>
-                        <i class="fas fa-pause" id="pauseIcon" style="display: none;"></i>
-                    </button>
                     <button class="control-btn" id="nextBtn">
                         <i class="fas fa-chevron-right"></i>
                     </button>
@@ -72,20 +68,26 @@
             </div>
         </div>
         
+        <!-- Mute/Unmute Button - Positioned at screen right edge but within section -->
+        <button class="control-btn mute-unmute-btn-right" id="muteUnmuteBtn">
+            <i class="fas fa-volume-up" id="unmuteIcon" style="display: none;"></i>
+            <i class="fas fa-volume-mute" id="muteIcon"></i>
+        </button>
+        
         <!-- Audio Elements -->
-        <audio id="audio1" preload="auto">
+        <audio id="audio1" preload="auto" muted>
             <source src="assets/audio/audio1.mp3" type="audio/mpeg">
         </audio>
-        <audio id="audio2" preload="auto">
+        <audio id="audio2" preload="auto" muted>
             <source src="assets/audio/audio2.mp3" type="audio/mpeg">
         </audio>
-        <audio id="audio3" preload="auto">
+        <audio id="audio3" preload="auto" muted>
             <source src="assets/audio/audio3.mp3" type="audio/mpeg">
         </audio>
-        <audio id="audio4" preload="auto">
+        <audio id="audio4" preload="auto" muted>
             <source src="assets/audio/audio4.mp3" type="audio/mpeg">
         </audio>
-        <audio id="audio5" preload="auto">
+        <audio id="audio5" preload="auto" muted>
             <source src="assets/audio/audio5.mp3" type="audio/mpeg">
         </audio>
     </section>
@@ -103,11 +105,11 @@
                         <div class="content-text">
                             <p>Whichever stage you are at, having come to a milestone or to approach one, you can Power-position your Brand to full leverage – no matter how large or small, old or young you are as a brand.</p>
                             
-                            <p>Discover & define Brand differentiation strategically, derived out of deep-diving into and decoding the very DNA and soul of brand, the drive of drivers inside-out and from competitive deep-dive.</p>
+                            <p><strong>Discover & define Brand differentiation</strong> strategically, derived out of deep-diving into and decoding the very DNA and soul of brand, the drive of drivers inside-out and from competitive deep-dive.</p>
                             
-                            <p>Power-Position your Brand, from comprehensive 360° insight-mining exercise, where a set of possible 'positions' are discovered & evaluated over various relevant factors to ensure greatest impact across stakeholders.</p>
+                            <p><strong>Power-Position your Brand</strong>, from comprehensive 360° insight-mining exercise, where a set of possible 'positions' are discovered & evaluated over various relevant factors to ensure greatest impact across stakeholders.</p>
                             
-                            <p>Craft connecting & captivating communication: Articulation of Brand, it's promise-based on the power-position in a crisp, engaging & captivating ways, maintaining relevance and high-impact with all segments of audience.</p>
+                            <p><strong>Craft connecting & captivating communication: Articulation of Brand</strong>, it's promise-based on the power-position in a crisp, engaging & captivating ways, maintaining relevance and high-impact with all segments of audience.</p>
                         </div>
                     </div>
                 </div>
@@ -115,7 +117,7 @@
                 <!-- Case Studies Column -->
                 <div class="case-studies-column">
                     <div class="case-studies-wrapper">
-                        <h2 class="section-title">Success Stories</h2>
+                        <h2 class="section-title">Case Studies</h2>
                         
                         <div class="case-studies-slideshow">
                             <div class="case-studies-container">
@@ -123,7 +125,7 @@
                                     <div class="case-study-item">
                                         <div class="case-study-header">
                                             <div class="case-study-logo">
-                                                <img src="assets/images/myntra.png" alt="Mantra Logo">
+                                                <img src="assets/images/mantra.jpeg" alt="Mantra Logo">
                                             </div>
                                             <div class="case-study-header-content">
                                                 <h3>Mantra</h3>
@@ -197,10 +199,6 @@
                                             <h4>Approach & Outcome:</h4>
                                             <p>An in-depth research, to decipher the psyche of HNIs and thought-leaders, towards identifying a positioning true to the Brand-ethos - <strong>"Committed to solving problems at grass-root levels, truly patient and impact-first"</strong>.</p>
                                         </div>
-                                        
-                                        <div class="case-study-credit">
-                                            <p><em>[Delivered through BBT]</em></p>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -254,15 +252,6 @@
                 </button>
             </div>
             <div class="contact-info">
-                <div class="contact-item">
-                    <div class="contact-icon">
-                        <i class="fas fa-map-marker-alt"></i>
-                    </div>
-                    <div class="contact-text">
-                        <h4>Location</h4>
-                        <p>Singapore</p>
-                    </div>
-                </div>
                 <div class="contact-item">
                     <div class="contact-icon">
                         <i class="fas fa-phone"></i>

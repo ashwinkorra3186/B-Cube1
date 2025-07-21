@@ -937,7 +937,7 @@ img {
 }
 
 .cxo-cases {
-    margin-top: 4rem;
+    margin-top: 2rem;
 }
 
 .cases-grid {
@@ -1002,6 +1002,7 @@ img {
     color: var(--primary-color);
 }
 
+
 .case-header h3 {
     font-family: var(--heading-font);
     font-size: 1.3rem;
@@ -1010,6 +1011,7 @@ img {
     margin: 0 0 0.25rem 0;
     line-height: 1.2;
 }
+
 
 .case-industry {
     font-size: 0.9rem;
@@ -1034,6 +1036,7 @@ img {
     color: var(--primary-color);
     font-weight: 600;
 }
+
 
 .detail-card {
     background: var(--light-gray);
@@ -1240,11 +1243,7 @@ img {
         text-align: center;
     }
 }
-    font-size: 1rem;
-    font-weight: 500;
-    color: var(--text-color);
-    line-height: 1.5;
-}
+
 
 
 .hero-video-container {
@@ -1760,6 +1759,11 @@ img {
     font-size: 15px;
 }
 
+.brand-partner-text {
+    color: var(--accent-color);
+    font-weight: 700;
+}
+
 /* ===== About Section ===== */
 .about {
     padding: var(--section-spacing) 0;
@@ -2055,9 +2059,26 @@ img {
 }
 
 .case-study-header {
-    margin-bottom: 30px;
-    padding-bottom: 20px;
-    border-bottom: 2px solid var(--medium-gray);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--medium-gray);
+}
+
+.case-study-logo {
+    flex-shrink: 0;
+}
+
+.case-study-logo img {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+}
+
+.case-study-description {
+    margin-top: 10px;
 }
 
 .case-study-header h3 {
@@ -3374,7 +3395,7 @@ img {
 
 .trust-item {
     background: white;
-    padding: 40px 30px;
+    padding: 25px 20px;
     border-radius: 10px;
     text-align: center;
     box-shadow: 0 8px 25px rgba(0,0,0,0.1);
@@ -3382,7 +3403,7 @@ img {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 300px;
+    min-height: 200px;
 }
 
 .trust-item:hover {
@@ -3393,7 +3414,7 @@ img {
 .trust-item img {
     height: 100px;
     max-width: 200px;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
     object-fit: contain;
     flex-shrink: 0;
 }
@@ -4656,15 +4677,17 @@ img {
 
 .hero-services-content {
     display: grid;
-    grid-template-columns: 12% 63% 25%;
-    gap: 15px;
+    grid-template-columns: 20% 70% 10%;
+    gap: 0;
     align-items: start;
     height: 100%;
 }
 
-/* Left Column - Client Logos */
+/* Right Column - Client Logos (moved from left) */
 .client-logos-column {
     position: relative;
+    margin-left: auto;
+    order: 3;
 }
 
 .client-logos-column .logos-header {
@@ -4722,9 +4745,10 @@ img {
     }
 }
 
-/* Right Column - Services Grid */
+/* Center Column - Services Grid */
 .services-column {
     position: relative;
+    order: 2;
 }
 
 .services-column .services-header {
@@ -4815,8 +4839,9 @@ img {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: var(--accent-color);
-    color: white;
+    background: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
     padding: 10px 20px;
     border-radius: 25px;
     font-size: 13px;
@@ -4828,6 +4853,7 @@ img {
 
 .learn-more-btn:hover {
     background: var(--primary-color);
+    color: white;
     transform: translateX(2px);
 }
 
@@ -4891,7 +4917,7 @@ img {
 
 .services-grid-2x3 .service-card h3 {
     font-family: var(--heading-font);
-    font-size: 16px;
+    font-size: 14px;
     margin-bottom: 12px;
     color: var(--primary-color);
     line-height: 1.3;
@@ -4900,7 +4926,7 @@ img {
 .services-grid-2x3 .service-card p {
     color: var(--text-color);
     line-height: 1.4;
-    font-size: 13px;
+    font-size: 11px;
     flex-grow: 1;
     margin-bottom: 15px;
 }
@@ -4916,9 +4942,11 @@ img {
     border-radius: 20px;
 }
 
-/* Testimonials Column */
+/* Left Column - Testimonials (moved from right) */
 .testimonials-column {
     position: relative;
+    margin-right: 0;
+    order: 1;
 }
 
 .testimonials-column .testimonials-header {
@@ -4938,7 +4966,7 @@ img {
 }
 
 .testimonial-slider-compact {
-    height: 620px;
+    height: 670px;
     overflow: hidden;
     position: relative;
 }

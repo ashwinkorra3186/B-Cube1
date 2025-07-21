@@ -61,10 +61,6 @@
                     <button class="control-btn" id="prevBtn">
                         <i class="fas fa-chevron-left"></i>
                     </button>
-                    <button class="control-btn play-pause-btn" id="playPauseBtn">
-                        <i class="fas fa-play" id="playIcon"></i>
-                        <i class="fas fa-pause" id="pauseIcon" style="display: none;"></i>
-                    </button>
                     <button class="control-btn" id="nextBtn">
                         <i class="fas fa-chevron-right"></i>
                     </button>
@@ -72,11 +68,17 @@
             </div>
         </div>
         
+        <!-- Mute/Unmute Button - Positioned at screen right edge but within section -->
+        <button class="control-btn mute-unmute-btn-right" id="muteUnmuteBtn">
+            <i class="fas fa-volume-up" id="unmuteIcon" style="display: none;"></i>
+            <i class="fas fa-volume-mute" id="muteIcon"></i>
+        </button>
+        
         <!-- Audio Elements -->
-        <audio id="audio6" preload="auto">
+        <audio id="audio6" preload="auto" muted>
             <source src="assets/audio/audio6.mp3" type="audio/mpeg">
         </audio>
-        <audio id="audio7" preload="auto">
+        <audio id="audio7" preload="auto" muted>
             <source src="assets/audio/audio7.mp3" type="audio/mpeg">
         </audio>
     </section>
@@ -313,15 +315,6 @@
                 </button>
             </div>
             <div class="contact-info">
-                <div class="contact-item">
-                    <div class="contact-icon">
-                        <i class="fas fa-map-marker-alt"></i>
-                    </div>
-                    <div class="contact-text">
-                        <h4>Location</h4>
-                        <p>Singapore</p>
-                    </div>
-                </div>
                 <div class="contact-item">
                     <div class="contact-icon">
                         <i class="fas fa-phone"></i>

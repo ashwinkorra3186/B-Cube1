@@ -61,10 +61,6 @@
                     <button class="control-btn" id="prevBtn">
                         <i class="fas fa-chevron-left"></i>
                     </button>
-                    <button class="control-btn play-pause-btn" id="playPauseBtn">
-                        <i class="fas fa-play" id="playIcon"></i>
-                        <i class="fas fa-pause" id="pauseIcon" style="display: none;"></i>
-                    </button>
                     <button class="control-btn" id="nextBtn">
                         <i class="fas fa-chevron-right"></i>
                     </button>
@@ -72,14 +68,20 @@
             </div>
         </div>
         
+        <!-- Mute/Unmute Button - Positioned at screen right edge but within section -->
+        <button class="control-btn mute-unmute-btn-right" id="muteUnmuteBtn">
+            <i class="fas fa-volume-up" id="unmuteIcon" style="display: none;"></i>
+            <i class="fas fa-volume-mute" id="muteIcon"></i>
+        </button>
+        
         <!-- Audio Elements -->
-        <audio id="audio8" preload="auto">
+        <audio id="audio8" preload="auto" muted>
             <source src="assets/audio/audio8.mp3" type="audio/mpeg">
         </audio>
-        <audio id="audio9" preload="auto">
+        <audio id="audio9" preload="auto" muted>
             <source src="assets/audio/audio9.mp3" type="audio/mpeg">
         </audio>
-        <audio id="audio10" preload="auto">
+        <audio id="audio10" preload="auto" muted>
             <source src="assets/audio/audio10.mp3" type="audio/mpeg">
         </audio>
     </section>
@@ -113,7 +115,7 @@
                 <!-- India Acceleration Cases Column -->
                 <div class="india-acceleration-column">
                     <div class="cases-wrapper">
-                        <h2 class="section-title">INDIA ACCELERATION</h2>
+                        <h2 class="section-title">Recent Works</h2>
                         
                         <div class="india-cases-scroll-container">
                             <div class="cases-grid">
@@ -347,15 +349,6 @@
                 </button>
             </div>
             <div class="contact-info">
-                <div class="contact-item">
-                    <div class="contact-icon">
-                        <i class="fas fa-map-marker-alt"></i>
-                    </div>
-                    <div class="contact-text">
-                        <h4>Location</h4>
-                        <p>Singapore</p>
-                    </div>
-                </div>
                 <div class="contact-item">
                     <div class="contact-icon">
                         <i class="fas fa-phone"></i>

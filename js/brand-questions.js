@@ -44,9 +44,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const progressBar = document.getElementById('progressBar');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    const playIcon = document.getElementById('playIcon');
-    const pauseIcon = document.getElementById('pauseIcon');
+    const muteUnmuteBtn = document.getElementById('muteUnmuteBtn');
+    const muteIcon = document.getElementById('muteIcon');
+    const unmuteIcon = document.getElementById('unmuteIcon');
     
     // Audio elements
     const audioElements = {
@@ -59,8 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // State Management
     let currentIndex = 0;
-    let isPlaying = false;
-    let isPaused = false;
+    let isMuted = true; // Start muted for autoplay compliance
     let presentationTimeout;
     let currentAudio = null;
 
@@ -70,41 +69,38 @@ document.addEventListener('DOMContentLoaded', function() {
     function init() {
         setupEventListeners();
         setupAudioEvents();
-        showCurrentPairSilent(); // Start with first question but no audio
+        updateMuteUnmuteButton();
+        startPresentation(); // Auto-start the slideshow
     }
 
     function setupEventListeners() {
         if (prevBtn) {
             prevBtn.addEventListener('click', function() {
-                pausePresentation();
                 showPreviousQuestion();
             });
         }
         
         if (nextBtn) {
             nextBtn.addEventListener('click', function() {
-                pausePresentation();
                 showNextQuestion();
             });
         }
         
-        if (playPauseBtn) {
-            playPauseBtn.addEventListener('click', togglePlayPause);
+        if (muteUnmuteBtn) {
+            muteUnmuteBtn.addEventListener('click', toggleMute);
         }
         
         // Keyboard controls
         document.addEventListener('keydown', function(e) {
             if (e.code === 'ArrowLeft') {
                 e.preventDefault();
-                pausePresentation();
                 showPreviousQuestion();
             } else if (e.code === 'ArrowRight') {
                 e.preventDefault();
-                pausePresentation();
                 showNextQuestion();
             } else if (e.code === 'Space') {
                 e.preventDefault();
-                togglePlayPause();
+                toggleMute();
             }
         });
     }
@@ -124,73 +120,58 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function startPresentation() {
-        isPlaying = true;
-        isPaused = false;
         currentIndex = 0;
-        updatePlayPauseButton();
         showCurrentPair();
     }
     
-    function pausePresentation() {
-        isPlaying = false;
-        isPaused = true;
-        clearTimeout(presentationTimeout);
-        pauseCurrentAudio();
-        updatePlayPauseButton();
+    function toggleMute() {
+        isMuted = !isMuted;
+        updateMuteUnmuteButton();
+        updateAudioMuteState();
     }
     
-    function resumePresentation() {
-        isPlaying = true;
-        isPaused = false;
-        updatePlayPauseButton();
-        resumeCurrentAudio();
-        scheduleNextSlide();
-    }
-    
-    function togglePlayPause() {
-        if (!isPlaying && !isPaused) {
-            startPresentation();
-        } else if (isPlaying) {
-            pausePresentation();
-        } else if (isPaused) {
-            resumePresentation();
-        }
-    }
-    
-    function updatePlayPauseButton() {
-        if (isPlaying) {
-            playIcon.style.display = 'none';
-            pauseIcon.style.display = 'block';
+    function updateMuteUnmuteButton() {
+        if (isMuted) {
+            muteIcon.style.display = 'block';
+            unmuteIcon.style.display = 'none';
         } else {
-            playIcon.style.display = 'block';
-            pauseIcon.style.display = 'none';
+            muteIcon.style.display = 'none';
+            unmuteIcon.style.display = 'block';
         }
+    }
+    
+    function updateAudioMuteState() {
+        // Update all audio elements to match mute state
+        Object.values(audioElements).forEach(audio => {
+            if (audio) {
+                audio.muted = isMuted;
+            }
+        });
     }
     
     function showPreviousQuestion() {
+        clearTimeout(presentationTimeout);
+        stopCurrentAudio();
         if (currentIndex > 0) {
             currentIndex--;
-            showCurrentPair();
         }
+        showCurrentPair();
     }
     
     function showNextQuestion() {
+        clearTimeout(presentationTimeout);
+        stopCurrentAudio();
         if (currentIndex < questionSubtitlePairs.length - 1) {
             currentIndex++;
-            showCurrentPair();
         }
+        showCurrentPair();
     }
 
 
     function showCurrentPair() {
         if (currentIndex >= questionSubtitlePairs.length) {
-            // Loop back to beginning if auto-playing
-            if (isPlaying) {
-                currentIndex = 0;
-            } else {
-                currentIndex = questionSubtitlePairs.length - 1;
-                return;
-            }
+            // Loop back to beginning for continuous play
+            currentIndex = 0;
         }
         
         const currentPair = questionSubtitlePairs[currentIndex];
@@ -203,38 +184,18 @@ document.addEventListener('DOMContentLoaded', function() {
             displayQuestion(currentPair.question);
             displaySubtitle(currentPair.subtitle);
             playAudioForCurrentPair(currentPair);
-            
-            if (isPlaying) {
-                animateProgressBar(currentPair.duration);
-                scheduleNextSlide();
-            } else {
-                updateProgressBar();
-            }
+            animateProgressBar(currentPair.duration);
+            scheduleNextSlide();
         }, 200);
     }
 
-    function showCurrentPairSilent() {
-        const currentPair = questionSubtitlePairs[currentIndex];
-        
-        // Clear previous content
-        clearContent();
-        
-        // Show question and subtitle together but NO AUDIO
-        setTimeout(() => {
-            displayQuestion(currentPair.question);
-            displaySubtitle(currentPair.subtitle);
-            updateProgressBar();
-        }, 200);
-    }
     
     function scheduleNextSlide() {
         const currentPair = questionSubtitlePairs[currentIndex];
         presentationTimeout = setTimeout(() => {
-            if (isPlaying) {
-                stopCurrentAudio();
-                currentIndex++;
-                showCurrentPair();
-            }
+            stopCurrentAudio();
+            currentIndex++;
+            showCurrentPair();
         }, currentPair.duration);
     }
 
@@ -303,38 +264,22 @@ document.addEventListener('DOMContentLoaded', function() {
             currentAudio = audioElements[pair.audioId];
             currentAudio.currentTime = 0;
             
-            // Ensure audio can play with explicit volume
+            // Set mute state and volume
+            currentAudio.muted = isMuted;
             currentAudio.volume = 1.0;
             
             const playPromise = currentAudio.play();
             if (playPromise !== undefined) {
                 playPromise.then(() => {
-                    console.log('Audio playing successfully');
+                    console.log('Audio playing successfully (muted:', isMuted, ')');
                 }).catch(e => {
                     console.error('Audio playback failed:', e);
-                    // Try to enable audio on first user interaction
-                    document.addEventListener('click', enableAudio, { once: true });
+                    // Audio will still try to play muted for autoplay compliance
                 });
             }
         }
     }
     
-    function enableAudio() {
-        // This will be called on first user interaction to enable audio
-        Object.values(audioElements).forEach(audio => {
-            if (audio) {
-                audio.load();
-            }
-        });
-        
-        // Only restart current slide audio if it's not already playing
-        if (currentAudio && currentAudio.paused) {
-            currentAudio.currentTime = 0;
-            currentAudio.play().catch(e => {
-                console.error('Audio enable failed:', e);
-            });
-        }
-    }
     
     function stopCurrentAudio() {
         if (currentAudio) {
@@ -344,19 +289,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    function pauseCurrentAudio() {
-        if (currentAudio && !currentAudio.paused) {
-            currentAudio.pause();
-        }
-    }
-    
-    function resumeCurrentAudio() {
-        if (currentAudio && currentAudio.paused) {
-            currentAudio.play().catch(e => {
-                console.error('Audio resume failed:', e);
-            });
-        }
-    }
     
 
     window.addEventListener('resize', handleResize);

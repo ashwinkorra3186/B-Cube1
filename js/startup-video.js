@@ -20,9 +20,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const progressBar = document.getElementById('progressBar');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    const playIcon = document.getElementById('playIcon');
-    const pauseIcon = document.getElementById('pauseIcon');
+    const muteUnmuteBtn = document.getElementById('muteUnmuteBtn');
+    const muteIcon = document.getElementById('muteIcon');
+    const unmuteIcon = document.getElementById('unmuteIcon');
     
     // Audio elements
     const audioElements = {
@@ -32,8 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // State Management
     let currentIndex = 0;
     let currentAudio = null;
-    let isPlaying = false;
-    let isPaused = false;
+    let isMuted = true; // Start muted for autoplay compliance
     let presentationTimeout = null;
 
     // Initialize
@@ -42,7 +41,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function init() {
         setupEventListeners();
         setupAudioEvents();
-        showCurrentPair();
+        updateMuteUnmuteButton();
+        startPresentation(); // Auto-start the slideshow
     }
 
     function setupEventListeners() {
@@ -54,8 +54,8 @@ document.addEventListener('DOMContentLoaded', function() {
             nextBtn.addEventListener('click', showNextQuestion);
         }
         
-        if (playPauseBtn) {
-            playPauseBtn.addEventListener('click', togglePlayPause);
+        if (muteUnmuteBtn) {
+            muteUnmuteBtn.addEventListener('click', toggleMute);
         }
         
         // Keyboard controls
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 showNextQuestion();
             } else if (e.code === 'Space') {
                 e.preventDefault();
-                togglePlayPause();
+                toggleMute();
             }
         });
     }
@@ -88,19 +88,23 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function showPreviousQuestion() {
+        clearTimeout(presentationTimeout);
         if (currentIndex > 0) {
             currentIndex--;
-            showCurrentPair();
-            playAudioForCurrentSlide();
+        } else {
+            currentIndex = questionSubtitlePairs.length - 1; // Loop to last
         }
+        showCurrentPair();
     }
     
     function showNextQuestion() {
+        clearTimeout(presentationTimeout);
         if (currentIndex < questionSubtitlePairs.length - 1) {
             currentIndex++;
-            showCurrentPair();
-            playAudioForCurrentSlide();
+        } else {
+            currentIndex = 0; // Loop to first
         }
+        showCurrentPair();
     }
     
     function playAudioForCurrentSlide() {
@@ -121,12 +125,8 @@ document.addEventListener('DOMContentLoaded', function() {
             displayQuestion(currentPair.question);
             displaySubtitle(currentPair.subtitle);
             updateProgressBar();
-            
-            // For single-slide pages with auto-play capability
-            if (isPlaying && !isPaused) {
-                playAudioForCurrentSlide();
-                scheduleNextSlide();
-            }
+            playAudioForCurrentSlide();
+            scheduleNextSlide();
         }, 200);
     }
 
@@ -176,7 +176,8 @@ document.addEventListener('DOMContentLoaded', function() {
             currentAudio = audioElements[pair.audioId];
             currentAudio.currentTime = 0;
             
-            // Ensure audio can play with explicit volume and load
+            // Set mute state and volume
+            currentAudio.muted = isMuted;
             currentAudio.volume = 1.0;
             currentAudio.load();
             
@@ -197,12 +198,14 @@ document.addEventListener('DOMContentLoaded', function() {
         // This will be called on first user interaction to enable audio
         Object.values(audioElements).forEach(audio => {
             if (audio) {
+                audio.muted = isMuted;
                 audio.load();
             }
         });
         
         // Restart current slide to play audio
         if (currentAudio) {
+            currentAudio.muted = isMuted;
             currentAudio.play().catch(e => {
                 console.error('Audio enable failed:', e);
             });
@@ -217,74 +220,37 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    function pauseCurrentAudio() {
-        if (currentAudio && !currentAudio.paused) {
-            currentAudio.pause();
-        }
-    }
     
-    function resumeCurrentAudio() {
-        if (currentAudio && currentAudio.paused) {
-            currentAudio.play().catch(e => {
-                console.error('Audio resume failed:', e);
-            });
-        }
-    }
-    
-    // Auto-play functions for single-slide pages
     function startPresentation() {
-        isPlaying = true;
-        isPaused = false;
-        updatePlayPauseButton();
+        currentIndex = 0;
         showCurrentPair();
     }
     
-    function pausePresentation() {
-        isPaused = true;
-        isPlaying = false;
-        updatePlayPauseButton();
-        pauseCurrentAudio();
+    function toggleMute() {
+        isMuted = !isMuted;
+        updateMuteUnmuteButton();
         
-        if (presentationTimeout) {
-            clearTimeout(presentationTimeout);
-            presentationTimeout = null;
-        }
-    }
-    
-    function resumePresentation() {
-        isPaused = false;
-        isPlaying = true;
-        updatePlayPauseButton();
-        resumeCurrentAudio();
-        
-        // Continue with remaining time if audio is still playing
-        const currentPair = questionSubtitlePairs[currentIndex];
-        if (currentAudio && !currentAudio.ended) {
-            const remainingTime = (currentPair.duration || 5000) - (currentAudio.currentTime * 1000);
-            if (remainingTime > 0) {
-                scheduleNextSlide(remainingTime);
+        // Apply mute state to all audio elements
+        Object.values(audioElements).forEach(audio => {
+            if (audio) {
+                audio.muted = isMuted;
             }
+        });
+        
+        // If currently playing audio, update its mute state
+        if (currentAudio) {
+            currentAudio.muted = isMuted;
         }
     }
     
-    function togglePlayPause() {
-        if (!isPlaying && !isPaused) {
-            startPresentation();
-        } else if (isPlaying && !isPaused) {
-            pausePresentation();
-        } else if (isPaused) {
-            resumePresentation();
-        }
-    }
-    
-    function updatePlayPauseButton() {
-        if (playIcon && pauseIcon) {
-            if (isPlaying && !isPaused) {
-                playIcon.style.display = 'none';
-                pauseIcon.style.display = 'inline';
+    function updateMuteUnmuteButton() {
+        if (muteIcon && unmuteIcon) {
+            if (isMuted) {
+                muteIcon.style.display = 'inline';
+                unmuteIcon.style.display = 'none';
             } else {
-                playIcon.style.display = 'inline';
-                pauseIcon.style.display = 'none';
+                muteIcon.style.display = 'none';
+                unmuteIcon.style.display = 'inline';
             }
         }
     }
@@ -298,14 +264,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         presentationTimeout = setTimeout(() => {
-            // For single-slide pages, restart the slide
-            if (questionSubtitlePairs.length === 1) {
-                // Reset to allow replay
-                isPlaying = false;
-                isPaused = false;
-                updatePlayPauseButton();
-                progressBar.style.width = '0%';
+            // Move to next slide or loop
+            if (currentIndex < questionSubtitlePairs.length - 1) {
+                currentIndex++;
+            } else {
+                currentIndex = 0; // Loop back to first
             }
+            showCurrentPair();
         }, duration);
         
         // Animate progress bar
