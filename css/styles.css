@@ -1762,6 +1762,8 @@ img {
 .brand-partner-text {
     color: var(--accent-color);
     font-weight: 700;
+    margin-top: auto;
+    display: block;
 }
 
 /* ===== About Section ===== */
@@ -4885,9 +4887,9 @@ img {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
     text-decoration: none;
     color: inherit;
+    min-height: 300px;
     height: 100%;
 }
 
@@ -4929,6 +4931,9 @@ img {
     font-size: 11px;
     flex-grow: 1;
     margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .services-grid-2x3 .service-button {
