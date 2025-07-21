@@ -4874,7 +4874,7 @@ img {
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);
     gap: 15px;
-    height: 620px;
+    height: 680px;
 }
 
 .services-grid-2x3 .service-card {
