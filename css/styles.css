@@ -1661,15 +1661,145 @@ img {
 }
 
 /* Responsive styling for hero content */
-@media (max-width: 768px) {
-    .hero-title {
-        font-size: clamp(2.5rem, 10vw, 4rem);
-        margin-bottom: 1.5rem;
+/* ===== Responsive ===== */
+@media (max-width: 1200px) {
+    .services-grid-2x3 {
+        grid-template-columns: repeat(2, 1fr);
     }
-    
-    .hero-question {
-        font-size: clamp(1rem, 4vw, 1.4rem);
-        margin-bottom: 0.8rem;
+    .hero-services-content {
+        flex-direction: column;
+    }
+    .testimonials-column {
+        margin-top: 40px;
+    }
+}
+
+@media (max-width: 992px) {
+    .header-inner {
+        flex-wrap: wrap;
+    }
+
+    .main-nav {
+        display: none;
+        width: 100%;
+        order: 3;
+        background-color: var(--secondary-color);
+        padding: 20px;
+        margin-top: 15px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .main-nav.active {
+        display: block;
+    }
+
+    .main-nav ul {
+        flex-direction: column;
+    }
+
+    .main-nav li {
+        margin: 10px 0;
+    }
+
+    .mobile-menu-toggle {
+        display: flex;
+    }
+
+    .services-grid-2x3 {
+        grid-template-columns: 1fr;
+    }
+
+    .trust-logos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .partners-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-logo {
+        margin-bottom: 20px;
+    }
+
+    .footer-links {
+        flex-direction: column;
+    }
+
+    .footer-column {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-content .company-name {
+        font-size: 2.5rem;
+    }
+
+    .hero-content .tagline {
+        font-size: 1.5rem;
+    }
+
+    .section-header h2 {
+        font-size: 32px;
+    }
+
+    .trust-logos {
+        grid-template-columns: 1fr;
+    }
+
+    .partners-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .testimonial-slider-compact {
+        padding: 0;
+    }
+
+    .testimonial-content {
+        padding: 30px;
+    }
+
+    .testimonial-content p {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 576px) {
+    .header {
+        padding: 15px 0;
+    }
+
+    .logo img {
+        height: 40px;
+    }
+
+    .hero-content .company-name {
+        font-size: 2rem;
+    }
+
+    .hero-content .tagline {
+        font-size: 1.2rem;
+    }
+
+    .section-header h2 {
+        font-size: 28px;
+    }
+
+    .service-card {
+        padding: 30px 20px;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+    }
+
+    .footer-bottom-links {
+        margin-top: 10px;
     }
 }
 
@@ -1760,9 +1890,36 @@ img {
 }
 
 .brand-partner-text {
-    color: var(--accent-color);
-    font-weight: 700;
+    color: var(--primary-color);
+    font-weight: 400;
     margin-top: auto;
+    display: block;
+}
+
+.service-partner-text {
+    color: var(--primary-color);
+    font-weight: 400;
+    margin-top: auto;
+    display: block;
+}
+
+.service-bullet-points {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 15px;
+    font-size: 10px;
+    line-height: 1.4;
+    display: inline-block;
+    text-align: left;
+}
+
+.service-bullet-points li {
+    margin: 0;
+    margin-bottom: 6px;
+    padding: 0;
+    color: var(--text-color);
+    font-weight: bold;
     display: block;
 }
 
@@ -4679,17 +4836,20 @@ img {
 
 .hero-services-content {
     display: grid;
-    grid-template-columns: 20% 70% 10%;
-    gap: 0;
+    grid-template-columns: 25% 74%;
+    gap: 2rem;
     align-items: start;
     height: 100%;
+    padding-right: 3rem;
 }
 
-/* Right Column - Client Logos (moved from left) */
-.client-logos-column {
-    position: relative;
-    margin-left: auto;
-    order: 3;
+/* Client Logos Section - Full Width Under Both Columns */
+.client-logos-section {
+    margin-top: 1rem;
+    width: 100%;
+    padding: 0;
+    background: transparent;
+}
 }
 
 .client-logos-column .logos-header {
@@ -4708,46 +4868,55 @@ img {
     margin-bottom: 15px;
 }
 
-.vertical-logo-scroll {
-    height: 550px;
+/* Horizontal Logo Scroll */
+.horizontal-logo-scroll {
+    width: 100%;
     overflow: hidden;
     position: relative;
-    margin-left: -80px;
-    margin-top: 80px;
+    height: 80px;
+    background: transparent;
+    padding: 10px 0;
 }
 
 .logo-scroll-container {
     display: flex;
-    flex-direction: column;
-    gap: 30px;
-    animation: verticalScroll 30s linear infinite;
+    flex-direction: row;
+    gap: 40px;
+    animation: horizontalScroll 40s linear infinite;
+    align-items: center;
 }
 
 .logo-item {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 80px;
+    min-width: 160px;
+    flex-shrink: 0;
 }
 
 .logo-item img {
-    max-width: 120px;
-    max-height: 50px;
+    max-width: 150px;
+    max-height: 60px;
     object-fit: contain;
-    opacity: 1;
+    opacity: 0.8;
     transition: all 0.3s ease;
 }
 
-@keyframes verticalScroll {
+.logo-item:hover img {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+@keyframes horizontalScroll {
     0% {
-        transform: translateY(0);
+        transform: translateX(0);
     }
     100% {
-        transform: translateY(-50%);
+        transform: translateX(-50%);
     }
 }
 
-/* Center Column - Services Grid */
+/* Right Column - Services Grid */
 .services-column {
     position: relative;
     order: 2;
@@ -4947,7 +5116,7 @@ img {
     border-radius: 20px;
 }
 
-/* Left Column - Testimonials (moved from right) */
+/* Left Column - Testimonials */
 .testimonials-column {
     position: relative;
     margin-right: 0;
@@ -5062,8 +5231,9 @@ img {
 /* Hero Services Responsive Design */
 @media (max-width: 1200px) {
     .hero-services-content {
-        grid-template-columns: 18% 60% 22%;
-        gap: 25px;
+        grid-template-columns: 25% 74%;
+        gap: 1.5rem;
+        padding-right: 2rem;
     }
     
     .services-grid-2x3 {
@@ -5098,10 +5268,9 @@ img {
         grid-template-rows: repeat(3, 1fr);
     }
     
-    .vertical-logo-scroll {
-        height: 400px;
-        margin-top: 60px;
-        margin-left: -30px;
+    .horizontal-logo-scroll {
+        height: 60px;
+        margin-top: 20px;
     }
     
     .testimonial-slider-compact {

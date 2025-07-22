@@ -578,6 +578,17 @@
     scroll-behavior: smooth;
 }
 
+/* Brand Cases Scrolling Container */
+.brand-cases-scroll-container {
+    max-height: 600px;
+    overflow-y: auto;
+    padding-right: 10px;
+    border-radius: 15px;
+    background: var(--secondary-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    scroll-behavior: smooth;
+}
+
 .india-cases-scroll-container .cases-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -585,28 +596,40 @@
     padding: 20px;
 }
 
+.brand-cases-scroll-container .cases-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 20px;
+}
+
 /* Custom Scrollbar Styling */
-.india-cases-scroll-container::-webkit-scrollbar {
+.india-cases-scroll-container::-webkit-scrollbar,
+.brand-cases-scroll-container::-webkit-scrollbar {
     width: 8px;
 }
 
-.india-cases-scroll-container::-webkit-scrollbar-track {
+.india-cases-scroll-container::-webkit-scrollbar-track,
+.brand-cases-scroll-container::-webkit-scrollbar-track {
     background: var(--light-gray);
     border-radius: 4px;
 }
 
-.india-cases-scroll-container::-webkit-scrollbar-thumb {
+.india-cases-scroll-container::-webkit-scrollbar-thumb,
+.brand-cases-scroll-container::-webkit-scrollbar-thumb {
     background: linear-gradient(135deg, var(--accent-color), #f4e76e);
     border-radius: 4px;
     transition: background 0.3s ease;
 }
 
-.india-cases-scroll-container::-webkit-scrollbar-thumb:hover {
+.india-cases-scroll-container::-webkit-scrollbar-thumb:hover,
+.brand-cases-scroll-container::-webkit-scrollbar-thumb:hover {
     background: var(--accent-color);
 }
 
 /* Firefox Scrollbar */
-.india-cases-scroll-container {
+.india-cases-scroll-container,
+.brand-cases-scroll-container {
     scrollbar-width: thin;
     scrollbar-color: var(--accent-color) var(--light-gray);
 }
