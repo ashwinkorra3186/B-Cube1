@@ -7,34 +7,38 @@ document.addEventListener('DOMContentLoaded', function() {
     // Question-Subtitle Pairs with individual timing and audio
     const questionSubtitlePairs = [
         {
-            question: "What is your Brand promise?",
-            subtitle: "How is your Brand remembered as?",
-            duration: 3000, // 3 seconds
+            type: "multi-question",
+            questions: [
+                "What is your Brand promise?",
+                "What values are synonymous with your Brand?",
+                "What does your Brand translate to?",
+                "Is your Brand more than a name?"
+            ],
+            subtitle: "Your Brand is synonymous with the Promise you impress as a Brand, with your values and the reason you establish to be remembered, related to, preferred, and loved.",
+            duration: 12000, // 12 seconds total - adjusted to match audio
+            questionDuration: 3000, // 3 seconds per question
             audioId: "audio1"
         },
         {
-            question: "Is your Brand more than a name?",
-            subtitle: "What is your Brand remembered for?",
-            duration: 3000, // 3 seconds
+            type: "single-question",
+            question: "What emotions are invoked by your Brand?",
+            subtitle: "Unless you invoke emotions and connect at an emotional level, you're reduced to being just an option.",
+            duration: 8000, // 8 seconds - increased for full audio
             audioId: "audio2"
         },
         {
-            question: "What emotions are invoked by your Brand?",
-            subtitle: "What does your Brand translate to?",
-            duration: 3000, // 3 seconds
+            type: "single-question",
+            question: "What is Branding to You?",
+            subtitle: "Branding much more than advertising or building familiarity! It is an honest expression of who You are as a Brand at your very Soul - and engaging with market, in ways the stakeholders engage with You as a Brand.",
+            duration: 16000, // 16 seconds - increased for full audio
             audioId: "audio3"
         },
         {
-            question: "What values are synonymous with your Brand?",
-            subtitle: "Your Brand is synonymous with the Promise you impress as a Brand, with your values and the reason you establish to be remembered, related to, preferred, and loved.",
-            duration: 11000, // 11 seconds - increased for longer text
-            audioId: "audio4"
-        },
-        {
+            type: "single-question",
             question: "Are you building business without building brand value?",
-            subtitle: "In all You do, be sure to genuinely connect as a Brand, impress, engage and build Brand value",
-            duration: 9000, // 9 seconds - increased for longer text
-            audioId: "audio5"
+            subtitle: "In all You do, be sure to genuinely connect as a Brand, impress, engage and Build Brand value",
+            duration: 10000, // 10 seconds - increased for full audio
+            audioId: "audio4"
         }
     ];
 
@@ -53,8 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
         audio1: document.getElementById('audio1'),
         audio2: document.getElementById('audio2'),
         audio3: document.getElementById('audio3'),
-        audio4: document.getElementById('audio4'),
-        audio5: document.getElementById('audio5')
+        audio4: document.getElementById('audio4')
     };
 
     // State Management
@@ -62,6 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let isMuted = true; // Start muted for autoplay compliance
     let presentationTimeout;
     let currentAudio = null;
+    let questionCycleTimeout = null; // Track question cycling timeout
 
     // Initialize
     init();
@@ -151,6 +155,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function showPreviousQuestion() {
         clearTimeout(presentationTimeout);
+        clearTimeout(questionCycleTimeout);
         stopCurrentAudio();
         if (currentIndex > 0) {
             currentIndex--;
@@ -160,6 +165,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function showNextQuestion() {
         clearTimeout(presentationTimeout);
+        clearTimeout(questionCycleTimeout);
         stopCurrentAudio();
         if (currentIndex < questionSubtitlePairs.length - 1) {
             currentIndex++;
@@ -179,10 +185,13 @@ document.addEventListener('DOMContentLoaded', function() {
         // Clear previous content
         clearContent();
         
-        // Show question and subtitle together
+        // Handle different slide types
         setTimeout(() => {
-            displayQuestion(currentPair.question);
-            displaySubtitle(currentPair.subtitle);
+            if (currentPair.type === "multi-question") {
+                handleMultiQuestionSlide(currentPair);
+            } else {
+                handleSingleQuestionSlide(currentPair);
+            }
             playAudioForCurrentPair(currentPair);
             animateProgressBar(currentPair.duration);
             scheduleNextSlide();
@@ -197,6 +206,30 @@ document.addEventListener('DOMContentLoaded', function() {
             currentIndex++;
             showCurrentPair();
         }, currentPair.duration);
+    }
+
+    function handleMultiQuestionSlide(pair) {
+        // Show subtitle immediately and cycle through questions
+        displaySubtitle(pair.subtitle);
+        
+        let questionIndex = 0;
+        const totalQuestions = pair.questions.length;
+        
+        function showNextQuestion() {
+            if (questionIndex < totalQuestions) {
+                displayQuestion(pair.questions[questionIndex]);
+                questionIndex++;
+                questionCycleTimeout = setTimeout(showNextQuestion, pair.questionDuration);
+            }
+        }
+        
+        // Start cycling through questions immediately
+        showNextQuestion();
+    }
+    
+    function handleSingleQuestionSlide(pair) {
+        displayQuestion(pair.question);
+        displaySubtitle(pair.subtitle);
     }
 
     function displayQuestion(question) {
@@ -235,6 +268,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function clearContent() {
+        clearTimeout(questionCycleTimeout);
         questionText.classList.remove('active', 'gold');
         voiceoverText.classList.remove('active', 'gold');
         progressBar.style.width = '0%';
