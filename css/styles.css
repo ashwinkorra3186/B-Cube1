@@ -6,10 +6,10 @@
 /* ===== Base Styles ===== */
 :root {
     /* Color Palette - Light Mode */
-    --primary-color: #000000;
-    --secondary-color: #ffffff; /* Changed to white as requested */
+    --primary-color: #ffffff;
+    --secondary-color: #000000; /* Changed to black as requested */
     --accent-color: #d4af37; /* Gold */
-    --text-color: #333333;
+    --text-color: #ffffff;
     --light-gray: #f8f8f8;
     --medium-gray: #e0e0e0;
     --dark-gray: #555555;
@@ -1851,7 +1851,7 @@ img {
 
 .service-card {
     padding: 40px 30px;
-    background-color: var(--light-gray);
+    background-color: var(--dark-gray);
     border-radius: 8px;
     text-align: center;
     transition: all 0.3s ease;
@@ -1903,7 +1903,7 @@ img {
 }
 
 .service-partner-text {
-    color: var(--primary-color);
+    color: #000000;
     font-weight: 400;
     margin-top: auto;
     display: block;
@@ -1939,7 +1939,7 @@ img {
     margin: 0;
     margin-bottom: 6px;
     padding: 0;
-    color: var(--text-color);
+    color: #000000;
     font-weight: bold;
     display: block;
 }
@@ -1947,7 +1947,7 @@ img {
 /* ===== About Section ===== */
 .about {
     padding: var(--section-spacing) 0;
-    background-color: var(--light-gray);
+    background-color: var(--secondary-color);
 }
 
 .about-content {
@@ -1990,7 +1990,7 @@ img {
 .about-highlight {
     padding: 20px;
     border-left: 3px solid var(--accent-color);
-    background-color: var(--secondary-color);
+    background-color: #ffffff;
 }
 
 .about-highlight p {
@@ -2531,8 +2531,8 @@ img {
 
 /* ===== Footer ===== */
 .footer {
-    background-color: var(--primary-color);
-    color: var(--secondary-color);
+    background-color: #000000;
+    color: #ffffff;
     padding-top: 80px;
 }
 
@@ -2582,7 +2582,7 @@ img {
 
 .footer-column h3 {
     font-size: 18px;
-    color: var(--secondary-color);
+    color: #ffffff;
     margin-bottom: 25px;
     position: relative;
 }
@@ -2711,7 +2711,7 @@ img {
     max-width: 800px;
     margin: 40px auto 0;
     padding: 30px;
-    background-color: var(--light-gray);
+    background-color: #ffffff;
     border-left: 4px solid var(--accent-color);
 }
 
@@ -2952,7 +2952,7 @@ img {
 /* ===== About Page Styles ===== */
 .about-intro {
     padding: 60px 0;
-    background: linear-gradient(135deg, var(--secondary-color) 0%, #fafafa 100%);
+    background: var(--secondary-color);
     position: relative;
 }
 
@@ -2985,7 +2985,7 @@ img {
     font-weight: 700;
     margin-bottom: 25px;
     position: relative;
-    color: var(--primary-color);
+    color: #ffffff;
 }
 
 .about-intro-text h2::after {
@@ -3002,7 +3002,7 @@ img {
 .about-intro-text p {
     font-size: 18px;
     line-height: 1.8;
-    color: var(--dark-gray);
+    color: #ffffff;
     margin-bottom: 35px;
 }
 
@@ -3030,7 +3030,7 @@ img {
 .about-stat {
     text-align: center;
     padding: 25px;
-    background: var(--secondary-color);
+    background: #ffffff;
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
@@ -3064,7 +3064,7 @@ img {
 
 .our-expertise {
     padding: 60px 0;
-    background: linear-gradient(135deg, var(--secondary-color) 0%, #fafafa 100%);
+    background: var(--secondary-color);
     position: relative;
 }
 
@@ -3088,7 +3088,7 @@ img {
 }
 
 .expertise-item {
-    background: var(--secondary-color);
+    background: #ffffff;
     padding: 35px 25px;
     border-radius: 20px;
     text-align: center;
@@ -3125,14 +3125,14 @@ img {
     font-size: 20px;
     font-weight: 600;
     margin-bottom: 15px;
-    color: var(--primary-color);
+    color: #000000;
     font-family: var(--heading-font);
 }
 
 .expertise-item p {
     font-size: 15px;
     line-height: 1.6;
-    color: var(--dark-gray);
+    color: #000000;
     margin-bottom: 0;
 }
 
@@ -3156,12 +3156,12 @@ img {
 
 .expertise-icon i {
     font-size: 36px;
-    color: var(--secondary-color);
+    color: #ffffff;
 }
 
 .our-approach {
     padding: 60px 0;
-    background-color: var(--light-gray);
+    background-color: var(--secondary-color);
 }
 
 .lifecycle-stages {
@@ -3173,7 +3173,7 @@ img {
 }
 
 .stage-item {
-    background: var(--secondary-color);
+    background: #ffffff;
     border-radius: 15px;
     padding: 35px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
@@ -3235,7 +3235,7 @@ img {
 .stage-header h3 {
     font-size: 24px;
     font-weight: 700;
-    color: var(--primary-color);
+    color: #000000;
     margin-bottom: 8px;
     font-family: var(--heading-font);
 }
@@ -3467,7 +3467,7 @@ img {
 
 .recent-works-grid {
     padding: 60px 0;
-    background-color: var(--light-gray);
+    background-color: var(--secondary-color);
 }
 
 /* Service Section Styles */
@@ -3529,7 +3529,7 @@ img {
 }
 
 .work-item {
-    background: var(--secondary-color);
+    background: #ffffff;
     border-radius: 15px;
     padding: 30px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
@@ -3549,7 +3549,7 @@ img {
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
-    background: var(--light-gray);
+    background: #f8f8f8;
     border-radius: 10px;
     padding: 15px;
 }
@@ -3578,7 +3578,7 @@ img {
 
 .work-description {
     font-size: 15px;
-    color: var(--dark-gray);
+    color: #000000;
     line-height: 1.6;
     margin-bottom: 20px;
 }
@@ -3791,7 +3791,7 @@ img {
 }
 
 .client-card {
-    background-color: var(--light-gray);
+    background-color: #ffffff;
     border-radius: 5px;
     overflow: hidden;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
@@ -3799,7 +3799,7 @@ img {
 }
 
 .client-section:nth-child(even) .client-card {
-    background-color: var(--secondary-color);
+    background-color: #ffffff;
 }
 
 .client-card:hover {
@@ -4088,7 +4088,7 @@ img {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--secondary-color);
+    background: #ffffff;
     border-radius: 8px;
     padding: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -4214,7 +4214,7 @@ img {
 .client-logos-global {
     padding: 40px 0;
     margin-bottom: 60px;
-    background-color: var(--light-gray);
+    background-color: var(--secondary-color);
 }
 
 .client-logos-global .client-logos-section {
@@ -4929,7 +4929,7 @@ img {
 /* ===== Hero Services Section ===== */
 .hero-services-section {
     padding: 100px 0 60px 0;
-    background: var(--light-gray);
+    background: var(--secondary-color);
     min-height: 90vh;
 }
 
@@ -4973,8 +4973,9 @@ img {
     overflow: hidden;
     position: relative;
     height: 80px;
-    background: transparent;
+    background: #f8f8f8;
     padding: 10px 0;
+    border-radius: 8px;
 }
 
 .logo-scroll-container {
@@ -5052,11 +5053,11 @@ img {
 }
 
 .services-grid-3x2 .service-card {
-    background: white;
+    background: var(--dark-gray);
     padding: 30px 25px;
     border-radius: 10px;
     text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 30px rgba(255,255,255,0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
@@ -5110,7 +5111,7 @@ img {
     align-items: center;
     gap: 8px;
     background: transparent;
-    color: var(--primary-color);
+    color: #000000;
     border: 2px solid var(--primary-color);
     padding: 10px 20px;
     border-radius: 25px;
@@ -5199,7 +5200,7 @@ img {
     font-family: var(--heading-font);
     font-size: 16px;
     margin: 0 0 0 15px;
-    color: var(--primary-color);
+    color: #000000;
     line-height: 1.3;
     flex: 1;
     text-align: left;
@@ -5208,7 +5209,7 @@ img {
 }
 
 .services-grid-2x3 .service-card p {
-    color: var(--text-color);
+    color: #000000;
     line-height: 1.4;
     font-size: 12px;
     flex-grow: 1;
@@ -5299,6 +5300,7 @@ img {
     position: relative;
     z-index: 1;
     flex-grow: 1;
+    color: #000000;
 }
 
 /* Consistent font sizing for all testimonials */
@@ -5306,6 +5308,7 @@ img {
     font-size: 14px;
     line-height: 1.6;
     font-weight: 400;
+    color: #000000;
 }
 
 .testimonial-slider-compact .testimonial-author {
@@ -5332,13 +5335,13 @@ img {
 .testimonial-slider-compact .author-details h4 {
     font-size: 16px;
     margin-bottom: 5px;
-    color: var(--primary-color);
+    color: #000000;
 }
 
 .testimonial-slider-compact .author-designation,
 .testimonial-slider-compact .author-company {
     font-size: 12px;
-    color: var(--dark-gray);
+    color: #000000;
     margin-bottom: 3px;
 }
 
@@ -5472,7 +5475,7 @@ img {
 }
 
 .why-us-item {
-    background: white;
+    background: #ffffff;
     padding: 40px 30px;
     border-radius: 10px;
     text-align: center;
@@ -5502,12 +5505,12 @@ img {
     font-family: var(--heading-font);
     font-size: 22px;
     margin-bottom: 15px;
-    color: var(--primary-color);
+    color: #000000;
     line-height: 1.3;
 }
 
 .why-us-item p {
-    color: var(--text-color);
+    color: #000000;
     line-height: 1.6;
     font-size: 16px;
 }
@@ -5578,7 +5581,7 @@ img {
     width: 70px;
     height: 70px;
     margin: 0 auto 20px;
-    background: var(--primary-color);
+    background: var(--accent-color);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -5591,12 +5594,12 @@ img {
     font-family: var(--heading-font);
     font-size: 18px;
     margin-bottom: 15px;
-    color: var(--primary-color);
+    color: #000000;
     line-height: 1.3;
 }
 
 .partner-item p {
-    color: var(--text-color);
+    color: #000000;
     line-height: 1.5;
     font-size: 14px;
 }
@@ -5639,14 +5642,14 @@ img {
 .credential-label {
     font-size: 18px;
     font-weight: 600;
-    color: var(--primary-color);
+    color: #000000;
     margin-bottom: 15px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
 .credential-item p {
-    color: var(--text-color);
+    color: #000000;
     line-height: 1.6;
     font-size: 14px;
 }
