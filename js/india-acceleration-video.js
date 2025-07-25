@@ -1,29 +1,23 @@
 /**
  * India Acceleration Video JavaScript
- * Sequential flow with 2 questions and 3 subtitles (5 segments total)
+ * Sequential flow with 2 questions and 2 subtitles
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Content Segments - Grouped flow: (Q1+S1) → S2 → (Q2+S3)
+    // Content Segments - 2 questions with subtitles
     const contentSegments = [
         {
             type: "question_subtitle",
             question: "Looking for clarity, guidance around your plans for India?",
-            subtitle: "As promising as India is, as an expansive market, the diversity, bureaucracy and complexity are just as real. Count on us to protect your interests and power your navigation.",
-            duration: 12000, // 12 seconds
+            subtitle: "As promising as India is, as an expansive market, the diversity, bureaucracy and complexity are just as real.",
+            duration: 11000, // 11 seconds
             audioId: "audio8"
-        },
-        {
-            type: "subtitle_only",
-            content: "Navigate through the promising yet complex Indian market with your interests prioritized and protected.",
-            duration: 8000, // 8 seconds
-            audioId: "audio9"
         },
         {
             type: "question_subtitle",
             question: "Are you confident that your interests in India are best protected?",
-            subtitle: "As a trusted advisor with international trade bodies, we not only bring to you the understanding of the complex Indian market but also an approach that protects and prioritizes your interests. We make things happen for you - from advisory to execution.",
-            duration: 25000, // 25 seconds
+            subtitle: "As a trusted advisor with international trade bodies, we not only bring to you the understanding of the market but also an approach that protects and prioritizes your interests. We make things happen for you - from advisory to execution.",
+            duration: 23000, // 23 seconds
             audioId: "audio10"
         }
     ];
@@ -41,7 +35,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Audio elements
     const audioElements = {
         audio8: document.getElementById('audio8'),
-        audio9: document.getElementById('audio9'),
         audio10: document.getElementById('audio10')
     };
 
@@ -64,14 +57,12 @@ document.addEventListener('DOMContentLoaded', function() {
     function setupEventListeners() {
         if (prevBtn) {
             prevBtn.addEventListener('click', function() {
-                pausePresentation();
                 showPreviousSegment();
             });
         }
         
         if (nextBtn) {
             nextBtn.addEventListener('click', function() {
-                pausePresentation();
                 showNextSegment();
             });
         }
@@ -84,11 +75,9 @@ document.addEventListener('DOMContentLoaded', function() {
         document.addEventListener('keydown', function(e) {
             if (e.code === 'ArrowLeft') {
                 e.preventDefault();
-                pausePresentation();
                 showPreviousSegment();
             } else if (e.code === 'ArrowRight') {
                 e.preventDefault();
-                pausePresentation();
                 showNextSegment();
             } else if (e.code === 'Space') {
                 e.preventDefault();
@@ -149,18 +138,24 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function showPreviousSegment() {
         clearTimeout(presentationTimeout);
+        stopCurrentAudio();
         if (currentIndex > 0) {
             currentIndex--;
-            showCurrentSegment();
+        } else {
+            currentIndex = contentSegments.length - 1; // Loop to end
         }
+        showCurrentSegment();
     }
     
     function showNextSegment() {
         clearTimeout(presentationTimeout);
+        stopCurrentAudio();
         if (currentIndex < contentSegments.length - 1) {
             currentIndex++;
-            showCurrentSegment();
+        } else {
+            currentIndex = 0; // Loop to beginning
         }
+        showCurrentSegment();
     }
 
 

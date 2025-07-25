@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const questionSubtitlePairs = [
         {
             question: "Is your critical decision-making powered by on-ground insights and reliable intelligence?",
-            subtitle: "We understand you'd not need one to tell you what to do, but all that's needed is reliable insight, intelligence and informed perspective, to insulate & empower your decision making.",
+            subtitle: "We understand you'd not need one to tell you what to do, but all that's needed is to be equipped with reliable insight, intelligence and a well-informed perspective, to insulate & empower your decision making.",
             duration: 12000, // 12 seconds
             audioId: "audio6"
         },

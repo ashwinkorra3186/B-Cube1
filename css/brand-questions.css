@@ -231,7 +231,7 @@
 
 /* Brand Positioning Content Section */
 .brand-positioning-content {
-    padding: 60px 0 20px 0;
+    padding: 60px 0 0 0;
     background: var(--secondary-color);
 }
 
@@ -665,7 +665,7 @@
 
 /* Case Studies Section - Legacy Styling (for other pages) */
 .case-studies {
-    padding: 80px 0;
+    padding: 10px 0 80px 0;
     background: var(--secondary-color);
 }
 
@@ -867,6 +867,93 @@
     color: #666666;
     margin: 0;
     font-style: italic;
+}
+
+/* Partnership Highlight Section */
+.partnership-highlight {
+    padding: 40px 0;
+    background: var(--secondary-color);
+}
+
+.partnership-card {
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 30px 40px;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border-left: 6px solid var(--accent-color);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.partnership-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.partnership-logo {
+    flex-shrink: 0;
+    width: 120px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f8f8;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.partnership-logo img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.partnership-content {
+    flex: 1;
+}
+
+.partnership-content h3 {
+    font-family: var(--heading-font);
+    font-size: 24px;
+    font-weight: 600;
+    color: #000000;
+    margin: 0 0 10px 0;
+    line-height: 1.3;
+}
+
+.partnership-content p {
+    font-family: var(--body-font);
+    font-size: 16px;
+    line-height: 1.6;
+    color: #000000;
+    margin: 0;
+}
+
+/* Responsive Design for Partnership Card */
+@media (max-width: 768px) {
+    .partnership-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 25px 20px;
+        gap: 20px;
+    }
+    
+    .partnership-logo {
+        width: 100px;
+        height: 70px;
+    }
+    
+    .partnership-content h3 {
+        font-size: 20px;
+    }
+    
+    .partnership-content p {
+        font-size: 15px;
+    }
 }
 
 /* India Services Subsections */

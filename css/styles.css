@@ -102,7 +102,7 @@ img {
 
 .section-header p {
     font-size: 18px;
-    color: var(--dark-gray);
+    color: #ffffff;
     max-width: 700px;
     margin: 0 auto;
 }
@@ -937,7 +937,8 @@ img {
 }
 
 .cxo-cases {
-    margin-top: 2rem;
+    margin-top: 0;
+    padding-top: 10px;
 }
 
 .cases-grid {
@@ -1907,7 +1908,7 @@ img {
     font-weight: 400;
     margin-top: auto;
     display: block;
-    font-size: 14px;
+    font-size: 18px;
     line-height: 1.5;
 }
 
@@ -1915,11 +1916,12 @@ img {
     list-style: none;
     margin: 0;
     padding: 0;
-    margin-bottom: 20px;
-    font-size: 13px;
-    line-height: 1.5;
-    display: inline-block;
+    margin-bottom: 12px;
+    font-size: 14px;
+    line-height: 1.4;
+    display: block;
     text-align: left;
+    width: 100%;
 }
 
 /* Specific spacing for India Market Entry card (2nd card) */
@@ -2143,14 +2145,15 @@ img {
 
 /* ===== Brand Positioning Content Section ===== */
 .brand-positioning-content {
-    padding: 60px 0;
+    padding: 30px 0 0 0;
     background-color: var(--secondary-color);
 }
 
 /* ===== Case Studies Section ===== */
 .case-studies {
-    padding: 60px 0;
+    padding: 5px 0 60px 0;
     background-color: var(--light-gray);
+    margin-top: -20px;
 }
 
 .case-studies-grid {
@@ -2951,7 +2954,7 @@ img {
 
 /* ===== About Page Styles ===== */
 .about-intro {
-    padding: 60px 0;
+    padding: 30px 0;
     background: var(--secondary-color);
     position: relative;
 }
@@ -3063,7 +3066,7 @@ img {
 }
 
 .our-expertise {
-    padding: 60px 0;
+    padding: 30px 0;
     background: var(--secondary-color);
     position: relative;
 }
@@ -3160,7 +3163,7 @@ img {
 }
 
 .our-approach {
-    padding: 60px 0;
+    padding: 30px 0;
     background-color: var(--secondary-color);
 }
 
@@ -3614,7 +3617,7 @@ img {
 
 /* Trust Section */
 .trust-section {
-    padding: 60px 0 40px 0;
+    padding: 30px 0 40px 0;
     background-color: var(--secondary-color);
 }
 
@@ -3630,7 +3633,7 @@ img {
 
 .trust-logos {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(2, 1fr);
     gap: 25px;
     max-width: 1200px;
@@ -4213,7 +4216,8 @@ img {
 /* Client Logos Global Section */
 .client-logos-global {
     padding: 40px 0;
-    margin-bottom: 60px;
+    margin-bottom: 0;
+    margin-top: -30px;
     background-color: var(--secondary-color);
 }
 
@@ -4928,18 +4932,18 @@ img {
 
 /* ===== Hero Services Section ===== */
 .hero-services-section {
-    padding: 100px 0 60px 0;
+    padding: 100px 0 30px 0;
     background: var(--secondary-color);
     min-height: 90vh;
 }
 
 .hero-services-content {
     display: grid;
-    grid-template-columns: 25% 75%;
-    gap: 2rem;
+    grid-template-columns: 22% 78%;
+    gap: 1rem;
     align-items: start;
     height: 100%;
-    padding-right: 3rem;
+    padding-right: 1rem;
 }
 
 /* Client Logos Section - Full Width Under Both Columns */
@@ -4972,25 +4976,26 @@ img {
     width: 100%;
     overflow: hidden;
     position: relative;
-    height: 80px;
+    height: 120px;
     background: #f8f8f8;
-    padding: 10px 0;
+    padding: 15px 0;
     border-radius: 8px;
 }
 
 .logo-scroll-container {
     display: flex;
     flex-direction: row;
-    gap: 40px;
-    animation: horizontalScroll 40s linear infinite;
+    gap: 20px;
+    animation: horizontalScroll 100s linear infinite;
     align-items: center;
+    width: calc(44 * (140px + 20px) * 2);
 }
 
 .logo-item {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 160px;
+    min-width: 140px;
     flex-shrink: 0;
 }
 
@@ -5103,7 +5108,7 @@ img {
 
 .service-button {
     margin-top: auto;
-    padding-top: 15px;
+    padding-top: 8px;
 }
 
 .learn-more-btn {
@@ -5113,9 +5118,9 @@ img {
     background: transparent;
     color: #000000;
     border: 2px solid var(--primary-color);
-    padding: 10px 20px;
+    padding: 8px 16px;
     border-radius: 25px;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     text-decoration: none;
     transition: all 0.3s ease;
@@ -5124,12 +5129,12 @@ img {
 
 .learn-more-btn:hover {
     background: var(--primary-color);
-    color: white;
+    color: #000000;
     transform: translateX(2px);
 }
 
 .learn-more-btn i {
-    font-size: 12px;
+    font-size: 10px;
     transition: transform 0.3s ease;
 }
 
@@ -5137,30 +5142,32 @@ img {
     transform: translateX(3px);
 }
 
+
 /* New 2x3 Services Grid */
 .services-grid-2x3 {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);
     gap: 15px;
-    height: 680px;
+    height: 660px;
 }
 
 .services-grid-2x3 .service-card {
     background: linear-gradient(135deg, #e1be3f 0%, var(--light-gray) 100%);
-    padding: 35px 25px;
+    padding: 20px 15px;
     border-radius: 8px;
-    text-align: center;
+    text-align: left;
     box-shadow: 0 8px 25px rgba(0,0,0,0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     text-decoration: none;
     color: inherit;
     min-height: 380px;
+    position: relative;
     height: 100%;
-    justify-content: space-between;
+    justify-content: flex-start;
     border-left: 4px solid var(--accent-color);
 }
 
@@ -5176,7 +5183,8 @@ img {
 .services-grid-2x3 .service-header {
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
+    justify-content: flex-start;
+    margin-bottom: 15px;
     width: 100%;
 }
 
@@ -5198,7 +5206,7 @@ img {
 
 .services-grid-2x3 .service-card h3 {
     font-family: var(--heading-font);
-    font-size: 16px;
+    font-size: 17px;
     margin: 0 0 0 15px;
     color: #000000;
     line-height: 1.3;
@@ -5211,22 +5219,21 @@ img {
 .services-grid-2x3 .service-card p {
     color: #000000;
     line-height: 1.4;
-    font-size: 12px;
+    font-size: 15px;
     flex-grow: 1;
-    margin-bottom: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    margin-bottom: 10px;
+    text-align: left;
 }
 
 .services-grid-2x3 .service-button {
     margin-top: auto;
-    padding-top: 2px;
+    padding-top: 8px;
+    text-align: right;
 }
 
 .services-grid-2x3 .learn-more-btn {
-    padding: 8px 16px;
-    font-size: 12px;
+    padding: 6px 12px;
+    font-size: 11px;
     border-radius: 20px;
 }
 
@@ -5254,7 +5261,7 @@ img {
 }
 
 .testimonial-slider-compact {
-    height: 670px;
+    height: 770px;
     overflow: hidden;
     position: relative;
 }
@@ -5348,9 +5355,9 @@ img {
 /* Hero Services Responsive Design */
 @media (max-width: 1200px) {
     .hero-services-content {
-        grid-template-columns: 25% 74%;
-        gap: 1.5rem;
-        padding-right: 2rem;
+        grid-template-columns: 20% 80%;
+        gap: 1rem;
+        padding-right: 0.5rem;
     }
     
     .services-grid-2x3 {
@@ -5362,11 +5369,11 @@ img {
     }
     
     .services-grid-2x3 .service-card h3 {
-        font-size: 15px;
+        font-size: 16px;
     }
     
     .services-grid-2x3 .service-card p {
-        font-size: 12px;
+        font-size: 14px;
     }
 }
 
@@ -5386,7 +5393,7 @@ img {
     }
     
     .horizontal-logo-scroll {
-        height: 60px;
+        height: 100px;
         margin-top: 20px;
     }
     
@@ -5420,13 +5427,13 @@ img {
     }
     
     .services-grid-2x3 .service-card p {
-        font-size: 13px;
+        font-size: 15px;
         margin-bottom: 15px;
     }
     
     .services-grid-2x3 .learn-more-btn {
-        font-size: 12px;
-        padding: 8px 16px;
+        font-size: 10px;
+        padding: 6px 10px;
     }
     
     .vertical-logo-scroll {
@@ -5463,8 +5470,13 @@ img {
 
 /* ===== Why Us Section ===== */
 .why-us {
-    padding: 40px 0 40px 0;
+    padding: 20px 0 0 0;
     background: var(--secondary-color);
+    margin-top: -40px;
+}
+
+.why-us .section-header {
+    margin-bottom: 20px;
 }
 
 .why-us-grid {
