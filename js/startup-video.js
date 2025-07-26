@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             question: "Are you a start-up looking for support but worried of costs?",
             subtitle: "No matter the stage of journey you are at as a start-up, we can help you at the point where your need meets our value-promise. With flexible engagement models, our support ranges across feasibility assessments, investor engagement and market access and penetration.",
-            duration: 15000, // 15 seconds
+            duration: 17000, // 17 seconds
             audioId: "audio12"
         }
     ];

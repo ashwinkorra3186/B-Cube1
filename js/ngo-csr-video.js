@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             question: "Is the impact of your fund / effort / investment measured/monitored?",
             subtitle: "Monitor and measure the impact in true to ground-reality, by application of scientific methodologies.",
-            duration: 12000, // 12 seconds
+            duration: 7000, // 7 seconds
             audioId: "audio13"
         }
     ];

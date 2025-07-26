@@ -10,14 +10,14 @@ document.addEventListener('DOMContentLoaded', function() {
             type: "question_subtitle",
             question: "Looking for clarity, guidance around your plans for India?",
             subtitle: "As promising as India is, as an expansive market, the diversity, bureaucracy and complexity are just as real.",
-            duration: 11000, // 11 seconds
+            duration: 9000, // 9 seconds
             audioId: "audio8"
         },
         {
             type: "question_subtitle",
             question: "Are you confident that your interests in India are best protected?",
             subtitle: "As a trusted advisor with international trade bodies, we not only bring to you the understanding of the market but also an approach that protects and prioritizes your interests. We make things happen for you - from advisory to execution.",
-            duration: 23000, // 23 seconds
+            duration: 16000, // 16 seconds
             audioId: "audio10"
         }
     ];

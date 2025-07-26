@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             question: "What's stopping from entering / expanding into new export markets?",
             subtitle: "Are you limited by lack of international marketing resources? We help represent promising Brands in a professional capacity and help crack deals in international markets, with sound strategy based on on-ground intelligence and action.",
-            duration: 15000, // 15 seconds
+            duration: 17000, // 17 seconds
             audioId: "audio11"
         }
     ];
