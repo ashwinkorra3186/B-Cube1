@@ -94,7 +94,7 @@ img {
 }
 
 .section-header h2 {
-    font-size: 42px;
+    font-size: 28px;
     font-weight: 700;
     position: relative;
     display: inline-block;
@@ -1946,10 +1946,29 @@ img {
 .service-bullet-points li {
     margin: 0;
     margin-bottom: 6px;
-    padding: 0;
-    color: #000000;
+    padding: 0 0 0 15px;
+    color: #8B4513;
     font-weight: bold;
     display: block;
+    position: relative;
+}
+
+.services-grid-2x3 .service-bullet-points li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #8B4513 !important;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.service-bullet-points li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #8B4513 !important;
+    font-weight: bold;
+    font-size: 16px;
 }
 
 /* ===== About Section ===== */
@@ -2648,10 +2667,10 @@ img {
 /* ===== Page Banner ===== */
 .page-banner {
     position: relative;
-    background: linear-gradient(135deg, var(--primary-color) 0%, #1a1a1a 100%);
+    background: #000000;
     padding: 140px 0 80px;
     text-align: center;
-    color: var(--secondary-color);
+    color: #ffffff;
     overflow: hidden;
 }
 
@@ -2674,7 +2693,7 @@ img {
 .page-banner h1 {
     font-size: 56px;
     font-weight: 700;
-    color: var(--secondary-color);
+    color: #ffffff;
     margin-bottom: 20px;
     position: relative;
     display: inline-block;
@@ -2708,6 +2727,22 @@ img {
     opacity: 0.95;
     line-height: 1.6;
     font-weight: 300;
+    color: #ffffff;
+}
+
+/* ===== Content Separator ===== */
+.content-separator {
+    padding: 20px 0;
+    background: var(--secondary-color);
+}
+
+.separator-line {
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-color), #f4d03f);
+    margin: 0 auto;
+    border-radius: 2px;
+    box-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
 }
 
 /* ===== Services Page Styles ===== */
@@ -3215,12 +3250,28 @@ img {
 }
 
 .stage-header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    grid-template-rows: auto auto;
+    gap: 20px 20px;
+    align-items: start;
     text-align: left;
     margin-bottom: 25px;
-    gap: 20px;
+}
+
+.stage-header .stage-icon {
+    grid-row: 1 / 3;
+    grid-column: 1;
+}
+
+.stage-header h3 {
+    grid-row: 1;
+    grid-column: 2;
+}
+
+.stage-header .stage-subtitle {
+    grid-row: 2;
+    grid-column: 2;
 }
 
 .stage-icon {
@@ -3245,7 +3296,7 @@ img {
     font-size: 24px;
     font-weight: 700;
     color: #000000;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
     font-family: var(--heading-font);
 }
 
@@ -3490,7 +3541,7 @@ img {
 
 .service-heading {
     font-family: var(--heading-font);
-    font-size: 2.5rem;
+    font-size: 28px;
     font-weight: 600;
     color: var(--primary-color);
     text-align: center;
@@ -5008,6 +5059,7 @@ img {
     justify-content: center;
     min-width: 140px;
     flex-shrink: 0;
+    margin-right: 20px;
 }
 
 .logo-item img {
@@ -5039,7 +5091,7 @@ img {
 }
 
 .services-column .services-header {
-    text-align: center;
+    text-align: left;
     margin-bottom: 5px;
     height: 50px;
     display: flex;
@@ -5158,7 +5210,7 @@ img {
 .services-grid-2x3 {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
+    grid-template-rows: 420px 240px !important;
     gap: 15px;
     height: 660px;
 }
@@ -5217,7 +5269,7 @@ img {
 
 .services-grid-2x3 .service-card h3 {
     font-family: var(--heading-font);
-    font-size: 18px;
+    font-size: 20px;
     margin: 0 0 0 15px;
     color: #000000;
     line-height: 1.3;
@@ -5256,7 +5308,7 @@ img {
 }
 
 .testimonials-column .testimonials-header {
-    text-align: center;
+    text-align: left;
     margin-bottom: 5px;
     height: 50px;
     display: flex;
@@ -5266,7 +5318,7 @@ img {
 
 .testimonials-column .testimonials-header h2 {
     font-family: var(--heading-font);
-    font-size: 24px;
+    font-size: 28px;
     color: var(--primary-color);
     margin-bottom: 15px;
 }
@@ -5288,7 +5340,7 @@ img {
 }
 
 .testimonial-slider-compact .testimonial-content {
-    background: linear-gradient(135deg, #e1be3f 0%, var(--light-gray) 100%);
+    background: #ffffff;
     padding: 25px 20px;
     border-radius: 8px;
     position: relative;
@@ -5483,7 +5535,7 @@ img {
 .why-us {
     padding: 20px 0 0 0;
     background: var(--secondary-color);
-    margin-top: -40px;
+    margin-top: 0px;
 }
 
 .why-us .section-header {

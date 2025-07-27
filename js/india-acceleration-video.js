@@ -51,7 +51,9 @@ document.addEventListener('DOMContentLoaded', function() {
         setupEventListeners();
         setupAudioEvents();
         updateMuteUnmuteButton();
-        startPresentation(); // Auto-start the slideshow
+        setTimeout(() => { 
+            startPresentation(); // Auto-start after 2 seconds 
+        }, 2000);
     }
 
     function setupEventListeners() {
