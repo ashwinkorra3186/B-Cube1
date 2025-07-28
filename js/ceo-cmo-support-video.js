@@ -49,6 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
         setupEventListeners();
         setupAudioEvents();
         updateMuteUnmuteButton();
+        showInitialContent(); // Show first question/subtitle immediately
         setTimeout(() => { 
             startPresentation(); // Auto-start after 2 seconds 
         }, 2000);
@@ -100,6 +101,15 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    function showInitialContent() {
+        // Show first question and subtitle immediately without audio
+        const firstPair = questionSubtitlePairs[0];
+        clearContent();
+        displayQuestion(firstPair.question);
+        displaySubtitle(firstPair.subtitle);
+        updateProgressBar();
+    }
+    
     function startPresentation() {
         currentIndex = 0;
         showCurrentPair();

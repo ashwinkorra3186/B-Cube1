@@ -51,6 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
         setupEventListeners();
         setupAudioEvents();
         updateMuteUnmuteButton();
+        showInitialContent(); // Show first question/subtitle immediately
         setTimeout(() => { 
             startPresentation(); // Auto-start after 2 seconds 
         }, 2000);
@@ -104,6 +105,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    function showInitialContent() {
+        // Show first question and subtitle immediately without audio
+        const firstSegment = contentSegments[0];
+        clearContent();
+        displaySegment(firstSegment);
+        // Update progress bar for first segment
+        const progress = (1 / contentSegments.length) * 100;
+        progressBar.style.width = progress + '%';
+        progressBar.style.transition = 'width 0.3s ease';
+    }
+    
     function startPresentation() {
         currentIndex = 0;
         showCurrentSegment();

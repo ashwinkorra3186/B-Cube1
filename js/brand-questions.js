@@ -74,9 +74,25 @@ document.addEventListener('DOMContentLoaded', function() {
         setupEventListeners();
         setupAudioEvents();
         updateMuteUnmuteButton();
+        showInitialContent(); // Show first question and subtitle immediately
         setTimeout(() => { 
-            startPresentation(); // Auto-start after 2 seconds 
+            startPresentation(); // Auto-start slideshow and audio after 2 seconds 
         }, 2000);
+    }
+
+    function showInitialContent() {
+        const firstPair = questionSubtitlePairs[0];
+        clearContent();
+        currentIndex = 0;
+        setTimeout(() => {
+            if (firstPair.type === "multi-question") {
+                displayQuestion(firstPair.questions[0]); // Show first question from the array
+            } else {
+                displayQuestion(firstPair.question);
+            }
+            displaySubtitle(firstPair.subtitle);
+            updateProgressBar();
+        }, 100);
     }
 
     function setupEventListeners() {
