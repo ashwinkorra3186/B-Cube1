@@ -1938,6 +1938,16 @@ img {
     margin-bottom: -9px;
 }
 
+/* Specific spacing for Brand Positioning card (1st card) */
+.services-grid-2x3 .service-card:nth-child(1) .service-button {
+    margin-top: -25px;
+    padding-top: -25px;
+}
+
+.services-grid-2x3 .service-card:nth-child(1) .learn-more-btn {
+    border: none;
+}
+
 .services-grid-2x3 .service-card:nth-child(2) .service-button {
     margin-top: -9px;
     padding-top: -9px;
@@ -5120,19 +5130,17 @@ img {
 .logo-scroll-container {
     display: flex;
     flex-direction: row;
-    gap: 20px;
-    animation: horizontalScroll 100s linear infinite;
+    animation: horizontalScroll 80s linear infinite;
     align-items: center;
-    width: calc(44 * (140px + 20px) * 2);
+    width: calc(44 * 240px * 2);
 }
 
 .logo-item {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 140px;
     flex-shrink: 0;
-    margin-right: 20px;
+    margin-right: 40px;
 }
 
 .logo-item img {
